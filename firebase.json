@@ -7,7 +7,8 @@
       "**/node_modules/**"
     ],
     "rewrites": [
-      { "source": "/api/create-invoice", "function": "createInvoice" }
+      { "source": "/api/create-invoice", "function": "createInvoice" },
+      { "source": "/api/admin-data", "function": "getAdminData" }
     ]
   },
   "functions": [

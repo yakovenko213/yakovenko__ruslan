@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Адмін — Яковенко Руслан</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4f3f1;
+      --card: #ffffff;
+      --primary: #3d3833;
+      --accent: #b08d6a;
+      --border: #e7e5e4;
+      --muted: #78716c;
+      --success: #16a34a;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --radius: 10px;
+      --sidebar: 220px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--primary); min-height: 100vh; }
+
+    /* ── LOGIN ── */
+    #loginScreen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .login-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .login-card h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+    .login-card p { color: var(--muted); font-size: 0.875rem; margin-bottom: 28px; }
+    .login-input {
+      width: 100%; padding: 12px 16px;
+      border: 1px solid var(--border); border-radius: var(--radius);
+      font-family: 'Inter', sans-serif; font-size: 0.9375rem;
+      outline: none; transition: border-color 0.2s; margin-bottom: 12px;
+    }
+    .login-input:focus { border-color: var(--accent); }
+    .login-btn {
+      width: 100%; padding: 13px;
+      background: var(--primary); color: #fff;
+      border: none; border-radius: var(--radius);
+      font-family: 'Inter', sans-serif; font-size: 0.9375rem; font-weight: 600;
+      cursor: pointer; transition: opacity 0.2s;
+    }
+    .login-btn:hover { opacity: 0.85; }
+    .login-error { color: var(--danger); font-size: 0.875rem; margin-top: 10px; display: none; }
+
+    /* ── LAYOUT ── */
+    #app { display: none; min-height: 100vh; }
+    .sidebar {
+      position: fixed; top: 0; left: 0;
+      width: var(--sidebar); height: 100vh;
+      background: var(--primary);
+      display: flex; flex-direction: column;
+      padding: 28px 0;
+      z-index: 10;
+    }
+    .sidebar-brand {
+      padding: 0 20px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 16px;
+    }
+    .sidebar-brand span {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: #fff;
+      display: block;
+    }
+    .sidebar-brand small { color: rgba(255,255,255,0.45); font-size: 0.75rem; }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 20px;
+      color: rgba(255,255,255,0.6);
+      cursor: pointer;
+      transition: all 0.15s;
+      font-size: 0.9rem;
+      border-left: 3px solid transparent;
+      margin: 1px 0;
+      background: none; border-right: none; border-top: none; border-bottom: none;
+      width: 100%; text-align: left; font-family: 'Inter', sans-serif;
+    }
+    .nav-item:hover { color: #fff; background: rgba(255,255,255,0.07); }
+    .nav-item.active { color: #fff; background: rgba(255,255,255,0.1); border-left-color: var(--accent); }
+    .nav-item svg { flex-shrink: 0; }
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 16px 20px 0;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .logout-btn {
+      width: 100%; padding: 9px 12px;
+      background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.15); border-radius: var(--radius);
+      font-family: 'Inter', sans-serif; font-size: 0.875rem;
+      cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 8px;
+    }
+    .logout-btn:hover { background: rgba(255,255,255,0.14); color: #fff; }
+
+    .main {
+      margin-left: var(--sidebar);
+      padding: 32px;
+      min-height: 100vh;
+    }
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 28px;
+    }
+    .topbar h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+    }
+    .refresh-btn {
+      padding: 8px 16px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); font-family: 'Inter', sans-serif;
+      font-size: 0.875rem; cursor: pointer; display: flex; align-items: center; gap: 6px;
+      transition: background 0.15s;
+    }
+    .refresh-btn:hover { background: var(--bg); }
+    .clear-btn {
+      padding: 8px 16px;
+      background: #fff0f0; border: 1px solid #fca5a5;
+      border-radius: var(--radius); font-family: 'Inter', sans-serif;
+      font-size: 0.875rem; cursor: pointer; color: var(--danger);
+      display: flex; align-items: center; gap: 6px; transition: background 0.15s;
+    }
+    .clear-btn:hover { background: #fee2e2; }
+
+    /* ── STATS CARDS ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 20px 18px;
+    }
+    .stat-label { font-size: 0.8125rem; color: var(--muted); margin-bottom: 8px; }
+    .stat-value { font-size: 1.75rem; font-weight: 600; line-height: 1; }
+    .stat-sub { font-size: 0.8125rem; color: var(--muted); margin-top: 4px; }
+    .stat-card.green .stat-value { color: var(--success); }
+    .stat-card.orange .stat-value { color: var(--warning); }
+
+    /* ── TABLE ── */
+    .table-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .table-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .table-title { font-weight: 600; font-size: 0.9375rem; }
+    .table-count {
+      background: var(--bg); padding: 3px 10px;
+      border-radius: 999px; font-size: 0.8125rem; color: var(--muted);
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+    th {
+      text-align: left; padding: 11px 16px;
+      font-size: 0.8rem; color: var(--muted); font-weight: 500;
+      background: #faf9f7; border-bottom: 1px solid var(--border); white-space: nowrap;
+    }
+    td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #faf9f7; }
+
+    .badge {
+      display: inline-block; padding: 3px 9px;
+      border-radius: 999px; font-size: 0.75rem; font-weight: 500;
+    }
+    .badge-success { background: #dcfce7; color: #16a34a; }
+    .badge-warning { background: #fef3c7; color: #d97706; }
+    .badge-danger  { background: #fee2e2; color: #dc2626; }
+    .badge-gray    { background: #f3f4f6; color: #6b7280; }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      padding: 48px 20px;
+      text-align: center;
+      color: var(--muted);
+    }
+    .empty-state svg { opacity: 0.3; margin-bottom: 12px; }
+    .empty-state p { font-size: 0.9375rem; }
+
+    /* ── CHART ── */
+    .course-bars { padding: 20px; }
+    .course-bar-row { margin-bottom: 14px; }
+    .course-bar-label { display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 5px; }
+    .course-bar-label span:last-child { color: var(--muted); }
+    .course-bar-track { height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+    .course-bar-fill { height: 100%; border-radius: 4px; background: var(--accent); transition: width 0.6s ease; }
+
+    /* ── TAB ── */
+    .tab-section { display: none; }
+    .tab-section.active { display: block; }
+
+    /* ── PERIOD SELECTOR ── */
+    .period-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .period-btn {
+      padding: 7px 14px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); font-family: 'Inter', sans-serif;
+      font-size: 0.8125rem; cursor: pointer; transition: all 0.15s;
+    }
+    .period-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .period-btn:hover:not(.active) { background: var(--bg); }
+    .custom-range-row { display: none; gap: 8px; align-items: center; margin-bottom: 20px; flex-wrap: wrap; }
+    .custom-range-row input[type="date"] {
+      padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius);
+      font-family: 'Inter', sans-serif; font-size: 0.875rem; outline: none;
+    }
+    .section-divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+
+    /* ── LOADING ── */
+    .loading { text-align: center; padding: 48px; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div style="width:52px;height:52px;background:#f4f3f1;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3d3833" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
+    <h1>Адмін панель</h1>
+    <p>Яковенко Руслан — курси</p>
+    <form id="loginForm">
+      <input class="login-input" type="password" id="passwordInput" placeholder="Пароль" autocomplete="current-password">
+      <button class="login-btn" type="submit">Увійти</button>
+      <div class="login-error" id="loginError">Невірний пароль</div>
+    </form>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <span>Яковенко Руслан</span>
+      <small>Адмін панель</small>
+    </div>
+    <button class="nav-item active" onclick="switchTab('sales', this)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      Продажі
+    </button>
+    <button class="nav-item" onclick="switchTab('abandoned', this)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+      Покинутий кошик
+    </button>
+    <button class="nav-item" onclick="switchTab('stats', this)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+      Статистика
+    </button>
+    <div class="sidebar-footer">
+      <button class="logout-btn" onclick="logout()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+        Вийти
+      </button>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <!-- SALES TAB -->
+    <div id="salesTab" class="tab-section active">
+      <div class="topbar">
+        <h2>Продажі</h2>
+        <div style="display:flex;gap:8px">
+          <button class="refresh-btn" onclick="loadData()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+            Оновити
+          </button>
+          <button class="clear-btn" onclick="clearCollection('invoices','продажі')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+            Очистити
+          </button>
+        </div>
+      </div>
+      <div class="stats-grid" id="salesStats"></div>
+      <div class="table-card">
+        <div class="table-header">
+          <span class="table-title">Успішні оплати</span>
+          <span class="table-count" id="salesCount">0</span>
+        </div>
+        <div id="salesTableWrap"><div class="loading">Завантаження...</div></div>
+      </div>
+    </div>
+
+    <!-- ABANDONED TAB -->
+    <div id="abandonedTab" class="tab-section">
+      <div class="topbar">
+        <h2>Покинутий кошик</h2>
+        <div style="display:flex;gap:8px">
+          <button class="refresh-btn" onclick="loadData()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+            Оновити
+          </button>
+          <button class="clear-btn" onclick="clearCollection('leads','покинутий кошик')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+            Очистити
+          </button>
+        </div>
+      </div>
+      <div class="table-card">
+        <div class="table-header">
+          <span class="table-title">Не завершили оплату (30+ хв)</span>
+          <span class="table-count" id="abandonedCount">0</span>
+        </div>
+        <div id="abandonedTableWrap"><div class="loading">Завантаження...</div></div>
+      </div>
+    </div>
+
+    <!-- STATS TAB -->
+    <div id="statsTab" class="tab-section">
+      <div class="topbar">
+        <h2>Статистика</h2>
+        <div style="display:flex;gap:8px">
+          <button class="refresh-btn" onclick="loadData()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+            Оновити
+          </button>
+          <button class="clear-btn" onclick="clearCollection('pageViews','статистику відвідувань')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+            Очистити відвідування
+          </button>
+        </div>
+      </div>
+
+      <!-- Period selector -->
+      <div class="period-bar">
+        <button class="period-btn active" id="period-realtime" onclick="setPeriod('realtime')">Зараз (5 хв)</button>
+        <button class="period-btn" id="period-today" onclick="setPeriod('today')">Сьогодні</button>
+        <button class="period-btn" id="period-week" onclick="setPeriod('week')">Тиждень</button>
+        <button class="period-btn" id="period-month" onclick="setPeriod('month')">Місяць</button>
+        <button class="period-btn" id="period-custom" onclick="setPeriod('custom')">Свій діапазон</button>
+      </div>
+      <div class="custom-range-row" id="customRangeRow">
+        <input type="date" id="dateFrom">
+        <span style="color:var(--muted)">—</span>
+        <input type="date" id="dateTo">
+        <button class="refresh-btn" onclick="applyCustomRange()">Застосувати</button>
+      </div>
+
+      <!-- Visit stats cards -->
+      <div class="stats-grid" id="visitCards"></div>
+
+      <!-- Page views table -->
+      <div class="table-card" style="margin-bottom:24px">
+        <div class="table-header">
+          <span class="table-title">Відвідування сторінок</span>
+          <span class="table-count" id="visitCount">0</span>
+        </div>
+        <div id="pageViewsTableWrap"><div class="loading">Завантаження...</div></div>
+      </div>
+
+      <hr class="section-divider">
+
+      <!-- Sales stats -->
+      <div class="stats-grid" id="statsCards"></div>
+      <div class="table-card" style="margin-top:0">
+        <div class="table-header">
+          <span class="table-title">Продажі по курсах</span>
+        </div>
+        <div class="course-bars" id="courseBars"></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  const API = 'https://europe-west1-yakovenko-school.cloudfunctions.net/getAdminData';
+  let allData = [];
+  let token = '';
+
+  // ── LOGIN ──
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const pwd = document.getElementById('passwordInput').value;
+    const err = document.getElementById('loginError');
+    err.style.display = 'none';
+    try {
+      const r = await fetch(API, { headers: { 'Authorization': 'Bearer ' + pwd } });
+      if (r.status === 401) { err.style.display = 'block'; return; }
+      const d = await r.json();
+      token = pwd;
+      sessionStorage.setItem('adminToken', pwd);
+      allData = d.invoices || [];
+      window._leads = d.leads || [];
+      window._pageViews = d.pageViews || [];
+      showApp();
+    } catch {
+      err.textContent = 'Помилка підключення';
+      err.style.display = 'block';
+    }
+  });
+
+  async function loadData() {
+    if (!token) return;
+    try {
+      const r = await fetch(API, { headers: { 'Authorization': 'Bearer ' + token } });
+      if (!r.ok) return;
+      const d = await r.json();
+      allData = d.invoices || [];
+      window._leads = d.leads || [];
+      window._pageViews = d.pageViews || [];
+      renderAll();
+    } catch {}
+  }
+
+  function showApp() {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    renderAll();
+  }
+
+  function logout() {
+    sessionStorage.removeItem('adminToken');
+    token = '';
+    allData = [];
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('app').style.display = 'none';
+    document.getElementById('passwordInput').value = '';
+  }
+
+  // ── CHECK SESSION ──
+  window.addEventListener('DOMContentLoaded', async () => {
+    const saved = sessionStorage.getItem('adminToken');
+    if (saved) {
+      try {
+        const r = await fetch(API, { headers: { 'Authorization': 'Bearer ' + saved } });
+        if (r.ok) {
+          token = saved;
+          const d = await r.json();
+          allData = d.invoices || [];
+          window._leads = d.leads || [];
+          window._pageViews = d.pageViews || [];
+          showApp();
+          return;
+        }
+      } catch {}
+    }
+  });
+
+  // ── PAGE VIEWS ──
+  let currentPeriod = 'realtime';
+  let customFrom = null, customTo = null;
+
+  function setPeriod(p) {
+    currentPeriod = p;
+    document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+    const btn = document.getElementById('period-' + p);
+    if (btn) btn.classList.add('active');
+    const cr = document.getElementById('customRangeRow');
+    if (cr) cr.style.display = p === 'custom' ? 'flex' : 'none';
+    if (p !== 'custom') renderPageViews();
+  }
+
+  function applyCustomRange() {
+    customFrom = document.getElementById('dateFrom').value;
+    customTo = document.getElementById('dateTo').value;
+    if (customFrom && customTo) renderPageViews();
+  }
+
+  function getPeriodRange() {
+    const now = Date.now();
+    switch (currentPeriod) {
+      case 'realtime': return [now - 5 * 60 * 1000, now];
+      case 'today': { const d = new Date(); d.setHours(0,0,0,0); return [d.getTime(), now]; }
+      case 'week': return [now - 7 * 24 * 60 * 60 * 1000, now];
+      case 'month': { const d = new Date(); d.setDate(1); d.setHours(0,0,0,0); return [d.getTime(), now]; }
+      case 'custom': {
+        if (!customFrom || !customTo) return [0, now];
+        return [new Date(customFrom).getTime(), new Date(customTo + 'T23:59:59').getTime()];
+      }
+      default: return [0, now];
+    }
+  }
+
+  const PAGE_NAMES = {
+    '/': 'Головна', '/index.html': 'Головна',
+    '/course-scripts.html': 'Скрипти продажів',
+    '/course-warm-base.html': 'Тепла база',
+    '/course-money-mindset.html': 'Психологія грошей',
+    '/course-entrepreneur.html': 'Початковий підприємець',
+    '/course-upsell.html': 'Допродажі',
+    '/course-sales-funnel.html': 'Воронка продажів',
+  };
+
+  function tsMs(ts) {
+    if (!ts) return 0;
+    if (ts._seconds != null) return ts._seconds * 1000;
+    return new Date(ts).getTime();
+  }
+
+  function renderPageViews() {
+    const views = window._pageViews || [];
+    const [from, to] = getPeriodRange();
+    const filtered = views.filter(v => { const t = tsMs(v.timestamp); return t >= from && t <= to; });
+    const sessions = new Set(filtered.map(v => v.sessionId).filter(Boolean));
+
+    document.getElementById('visitCount').textContent = filtered.length;
+    document.getElementById('visitCards').innerHTML = `
+      <div class="stat-card">
+        <div class="stat-label">Переглядів сторінок</div>
+        <div class="stat-value">${filtered.length}</div>
+        <div class="stat-sub">${currentPeriod === 'realtime' ? 'останні 5 хвилин' : ''}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Унікальних відвідувачів</div>
+        <div class="stat-value">${sessions.size}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Переглядів / сесія</div>
+        <div class="stat-value">${sessions.size ? (filtered.length / sessions.size).toFixed(1) : '0'}</div>
+      </div>`;
+
+    const byPage = {};
+    filtered.forEach(v => {
+      const p = v.page || '/';
+      if (!byPage[p]) byPage[p] = { views: 0, sessions: new Set() };
+      byPage[p].views++;
+      if (v.sessionId) byPage[p].sessions.add(v.sessionId);
+    });
+
+    const rows = Object.entries(byPage)
+      .sort((a, b) => b[1].views - a[1].views)
+      .map(([page, d]) => `
+        <tr>
+          <td>${PAGE_NAMES[page] || page}</td>
+          <td style="font-weight:600">${d.views}</td>
+          <td>${d.sessions.size}</td>
+        </tr>`).join('');
+
+    document.getElementById('pageViewsTableWrap').innerHTML = rows
+      ? `<table><thead><tr><th>Сторінка</th><th>Переглядів</th><th>Унікальних</th></tr></thead><tbody>${rows}</tbody></table>`
+      : emptyState('Немає даних за обраний період');
+  }
+
+  // Auto-refresh for realtime
+  setInterval(() => { if (currentPeriod === 'realtime' && token) loadData(); }, 30000);
+
+  // ── CLEAR COLLECTION ──
+  const CLEAR_URL = 'https://europe-west1-yakovenko-school.cloudfunctions.net/clearStats';
+  async function clearCollection(collection, label) {
+    if (!confirm(`Ви впевнені, що хочете очистити «${label}»?\nЦя дія незворотна.`)) return;
+    try {
+      const r = await fetch(CLEAR_URL, {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ collection })
+      });
+      if (r.ok) { await loadData(); }
+      else { alert('Помилка при очищенні'); }
+    } catch { alert('Помилка мережі'); }
+  }
+
+  // ── TAB SWITCH ──
+  function switchTab(name, btn) {
+    document.querySelectorAll('.tab-section').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+    document.getElementById(name + 'Tab').classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // ── HELPERS ──
+  function fmtDate(ts) {
+    if (!ts) return '—';
+    const d = ts._seconds ? new Date(ts._seconds * 1000) : new Date(ts);
+    return d.toLocaleDateString('uk-UA', { day: '2-digit', month: '2-digit', year: 'numeric' })
+      + ' ' + d.toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' });
+  }
+  function fmtMoney(kopecks) { return (kopecks / 100).toLocaleString('uk-UA') + ' грн'; }
+  function badge(status) {
+    const map = {
+      success: ['badge-success', 'Оплачено'],
+      created: ['badge-gray', 'Створено'],
+      processing: ['badge-warning', 'В процесі'],
+      failure: ['badge-danger', 'Невдача'],
+      expired: ['badge-danger', 'Протермін.'],
+    };
+    const [cls, label] = map[status] || ['badge-gray', status];
+    return `<span class="badge ${cls}">${label}</span>`;
+  }
+
+  // ── RENDER ──
+  function renderAll() {
+    renderPageViews();
+    const now = Date.now();
+    const sales = allData.filter(i => i.status === 'success');
+    const abandoned = allData.filter(i => {
+      if (i.status === 'success' || i.status === 'processing') return false;
+      const ts = i.createdAt?._seconds ? i.createdAt._seconds * 1000 : new Date(i.createdAt).getTime();
+      return (now - ts) > 30 * 60 * 1000;
+    });
+
+    renderSales(sales);
+    renderAbandoned(abandoned, window._leads || []);
+    renderStats(sales, abandoned, window._leads || []);
+  }
+
+  function renderSales(sales) {
+    document.getElementById('salesCount').textContent = sales.length;
+    const total = sales.reduce((s, i) => s + (i.amount || 0), 0);
+
+    document.getElementById('salesStats').innerHTML = `
+      <div class="stat-card green">
+        <div class="stat-label">Загальний дохід</div>
+        <div class="stat-value">${fmtMoney(total)}</div>
+        <div class="stat-sub">за весь час</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Продажів</div>
+        <div class="stat-value">${sales.length}</div>
+        <div class="stat-sub">успішних оплат</div>
+      </div>`;
+
+    if (!sales.length) {
+      document.getElementById('salesTableWrap').innerHTML = emptyState('Поки що немає продажів');
+      return;
+    }
+    document.getElementById('salesTableWrap').innerHTML = `
+      <table>
+        <thead><tr><th>Дата</th><th>Ім'я</th><th>Email</th><th>Курс</th><th>Сума</th><th>Статус</th></tr></thead>
+        <tbody>${sales.map(i => `
+          <tr>
+            <td style="white-space:nowrap">${fmtDate(i.createdAt)}</td>
+            <td>${i.name || '—'}</td>
+            <td>${i.email || '—'}</td>
+            <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${i.courseName || i.courseId}</td>
+            <td style="white-space:nowrap;font-weight:600">${fmtMoney(i.amount)}</td>
+            <td>${badge(i.status)}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>`;
+  }
+
+  function renderAbandoned(abandoned, leads) {
+    const total = leads.length + abandoned.length;
+    document.getElementById('abandonedCount').textContent = total;
+    if (!total) {
+      document.getElementById('abandonedTableWrap').innerHTML = emptyState('Покинутих кошиків немає');
+      return;
+    }
+    const leadsRows = leads.map(i => `
+      <tr>
+        <td style="white-space:nowrap">${fmtDate(i.createdAt)}</td>
+        <td>${i.name || '—'}</td>
+        <td>${i.email || '—'}</td>
+        <td style="max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${i.courseName || i.courseId}</td>
+        <td><span class="badge badge-warning">Не натиснув оплату</span></td>
+      </tr>`).join('');
+    const invoiceRows = abandoned.map(i => `
+      <tr>
+        <td style="white-space:nowrap">${fmtDate(i.createdAt)}</td>
+        <td>${i.name || '—'}</td>
+        <td>${i.email || '—'}</td>
+        <td style="max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${i.courseName || i.courseId}</td>
+        <td><span class="badge badge-danger">Не завершив оплату</span></td>
+      </tr>`).join('');
+    document.getElementById('abandonedTableWrap').innerHTML = `
+      <table>
+        <thead><tr><th>Дата і час</th><th>Ім'я</th><th>Email</th><th>Курс</th><th>Статус</th></tr></thead>
+        <tbody>${leadsRows}${invoiceRows}</tbody>
+      </table>`;
+  }
+
+  function renderStats(sales, abandoned, leads) {
+    const total = sales.reduce((s, i) => s + (i.amount || 0), 0);
+    const conv = allData.length ? Math.round(sales.length / allData.length * 100) : 0;
+
+    document.getElementById('statsCards').innerHTML = `
+      <div class="stat-card green">
+        <div class="stat-label">Виручка</div>
+        <div class="stat-value">${fmtMoney(total)}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Конверсія</div>
+        <div class="stat-value">${conv}%</div>
+        <div class="stat-sub">${sales.length} з ${allData.length} спроб</div>
+      </div>
+      <div class="stat-card orange">
+        <div class="stat-label">Покинуто</div>
+        <div class="stat-value">${abandoned.length + (leads ? leads.length : 0)}</div>
+        <div class="stat-sub">${leads ? leads.length : 0} не натиснули · ${abandoned.length} не доплатили</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Всього спроб</div>
+        <div class="stat-value">${allData.length}</div>
+      </div>`;
+
+    const courseMap = {};
+    sales.forEach(i => {
+      const k = i.courseName || i.courseId;
+      if (!courseMap[k]) courseMap[k] = { count: 0, revenue: 0 };
+      courseMap[k].count++;
+      courseMap[k].revenue += i.amount || 0;
+    });
+
+    const maxRev = Math.max(...Object.values(courseMap).map(c => c.revenue), 1);
+    const bars = Object.entries(courseMap)
+      .sort((a, b) => b[1].revenue - a[1].revenue)
+      .map(([name, c]) => `
+        <div class="course-bar-row">
+          <div class="course-bar-label">
+            <span>${name}</span>
+            <span>${fmtMoney(c.revenue)} · ${c.count} шт</span>
+          </div>
+          <div class="course-bar-track">
+            <div class="course-bar-fill" style="width:${Math.round(c.revenue / maxRev * 100)}%"></div>
+          </div>
+        </div>`).join('');
+
+    document.getElementById('courseBars').innerHTML = bars || emptyState('Немає даних');
+  }
+
+  function emptyState(text) {
+    return `<div class="empty-state">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+      <p>${text}</p></div>`;
+  }
+</script>
+</body>
+</html>
