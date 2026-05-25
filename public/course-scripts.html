@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Переписка, яка продає. Скрипти від першого «привіт» до оплати — Яковенко Руслан</title>
+  <meta name="description" content="Покрокове пояснення структури скриптів продажів із готовими прикладами.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --background: #f7f5f2;
+      --foreground: #2d2a26;
+      --card: #fdfcfb;
+      --card-foreground: #2d2a26;
+      --primary: #3d3833;
+      --primary-foreground: #f7f5f2;
+      --secondary: #eeebe6;
+      --secondary-foreground: #3d3833;
+      --muted: #e8e4de;
+      --muted-foreground: #6b6560;
+      --accent: #8b5a3c;
+      --accent-foreground: #faf9f8;
+      --border: #ddd8d1;
+      --radius: 0.75rem;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: var(--background);
+      color: var(--foreground);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    /* Header */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      width: 100%;
+      border-bottom: 1px solid rgba(221, 216, 209, 0.4);
+      background-color: rgba(247, 245, 242, 0.95);
+      backdrop-filter: blur(8px);
+    }
+
+    .header-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      height: 64px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--foreground);
+      text-decoration: none;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border-radius: var(--radius);
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+    }
+
+    .btn-primary:hover {
+      background-color: #4a443e;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--foreground);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--secondary);
+    }
+
+    .btn-lg {
+      padding: 14px 28px;
+      font-size: 1rem;
+    }
+
+    .btn-sm {
+      padding: 8px 16px;
+      font-size: 0.875rem;
+    }
+
+    /* Hero */
+    .course-hero {
+      padding: 56px 0 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .course-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background-color: var(--secondary);
+      color: var(--muted-foreground);
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 20px;
+    }
+
+    .course-hero-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 2rem;
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--foreground);
+    }
+
+    .course-hero-desc {
+      margin-top: 16px;
+      font-size: 1.0625rem;
+      color: var(--muted-foreground);
+      max-width: 600px;
+    }
+
+    /* Modules */
+    .section {
+      padding: 56px 0;
+    }
+
+    .section-alt {
+      background-color: rgba(238, 235, 230, 0.5);
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 32px;
+    }
+
+    .modules-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .module-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background-color: var(--card);
+      overflow: hidden;
+    }
+
+    .module-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 24px;
+    }
+
+    .module-number {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--muted);
+      line-height: 1;
+      flex-shrink: 0;
+      min-width: 36px;
+    }
+
+    .module-content {
+      flex: 1;
+    }
+
+    .module-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.0625rem;
+      font-weight: 600;
+      color: var(--foreground);
+      line-height: 1.3;
+    }
+
+    .module-subtitle {
+      margin-top: 2px;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--accent);
+    }
+
+    .module-topics {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .module-topic {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+    }
+
+    .module-topic::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: var(--border);
+      flex-shrink: 0;
+      margin-top: 7px;
+    }
+
+    /* Outcomes */
+    .outcomes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .outcome-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px 20px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background-color: var(--card);
+    }
+
+    .outcome-check {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background-color: var(--primary);
+      margin-top: 1px;
+    }
+
+    .outcome-check svg {
+      width: 11px;
+      height: 11px;
+      color: var(--primary-foreground);
+    }
+
+    .outcome-text {
+      font-size: 0.9375rem;
+      color: var(--foreground);
+      line-height: 1.5;
+    }
+
+    /* Audience */
+    .audience-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .audience-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background-color: var(--card);
+      font-size: 0.9375rem;
+      color: var(--foreground);
+    }
+
+    .audience-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* Buy box */
+    .buy-box {
+      background-color: var(--primary);
+      border-radius: 16px;
+      padding: 40px 32px;
+      text-align: center;
+    }
+
+    .buy-box-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary-foreground);
+    }
+
+    .buy-box-desc {
+      margin-top: 8px;
+      font-size: 0.9375rem;
+      color: rgba(247, 245, 242, 0.7);
+    }
+
+    .buy-box-price {
+      margin-top: 24px;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-foreground);
+      line-height: 1;
+    }
+
+    .buy-box-price span {
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: rgba(247, 245, 242, 0.7);
+    }
+
+    @keyframes btn-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(247, 245, 242, 0.5); }
+      50%       { box-shadow: 0 0 0 8px rgba(247, 245, 242, 0); }
+    }
+
+    .buy-box-btn {
+      margin-top: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 36px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: var(--radius);
+      background-color: var(--primary-foreground);
+      color: var(--primary);
+      text-decoration: none;
+      transition: opacity 0.2s;
+      animation: btn-pulse 2.4s ease-in-out infinite;
+    }
+
+    .buy-box-btn:hover {
+      opacity: 0.9;
+      animation: none;
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border);
+      background-color: var(--card);
+      padding: 32px 0;
+      text-align: center;
+    }
+
+    .footer-copy {
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+    }
+
+    /* Chat demo */
+    .chat-demo-grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .chat-panel {
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .chat-panel-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .chat-panel-header.bad {
+      background-color: #fef2f2;
+      color: #991b1b;
+      border-bottom: 1px solid #fecaca;
+    }
+
+    .chat-panel-header.good {
+      background-color: #f0fdf4;
+      color: #166534;
+      border-bottom: 1px solid #bbf7d0;
+    }
+
+    .chat-panel-header .chat-label-icon {
+      font-size: 1rem;
+    }
+
+    .chat-body {
+      background-color: #f0ece7;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 200px;
+    }
+
+    .chat-row {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .chat-row.manager {
+      align-items: flex-start;
+    }
+
+    .chat-row.client {
+      align-items: flex-end;
+    }
+
+    .chat-sender {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--muted-foreground);
+      padding: 0 4px;
+      margin-bottom: 2px;
+    }
+
+    .chat-bubble {
+      max-width: 85%;
+      padding: 10px 14px;
+      border-radius: 16px;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      position: relative;
+    }
+
+    .chat-row.manager .chat-bubble {
+      background-color: var(--card);
+      color: var(--foreground);
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    }
+
+    .chat-row.client .chat-bubble {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+      border-bottom-right-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .chat-result {
+      margin-top: 4px;
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .chat-result.fail {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+
+    .chat-result.success {
+      background-color: #dcfce7;
+      color: #166534;
+    }
+
+    @media (min-width: 640px) {
+      .course-hero-title {
+        font-size: 2.5rem;
+      }
+
+      .audience-list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .chat-demo-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 768px) {
+      .module-header {
+        padding: 24px 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">Яковенко Руслан</a>
+      <a href="index.html" class="btn btn-outline btn-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+        На головну
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="course-hero">
+    <div class="container">
+      <h1 class="course-hero-title">Переписка, яка продає. Скрипти від першого «привіт» до оплати</h1>
+      <p class="course-hero-desc">Навчіться вести діалог так, щоб клієнти не зникали після першого повідомлення. Готові формули, шаблони і розбори реальних переписок — від холодного контакту до закритої угоди.</p>
+    </div>
+  </section>
+
+  <!-- Audience — 1st: читач одразу впізнає себе -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Для кого цей курс</h2>
+      <div class="audience-list">
+        <div class="audience-item">
+          <span class="audience-dot"></span>
+          Менеджери з продажів в Instagram, Telegram, Viber
+        </div>
+        <div class="audience-item">
+          <span class="audience-dot"></span>
+          Власники малого бізнесу, які самі спілкуються з клієнтами
+        </div>
+        <div class="audience-item">
+          <span class="audience-dot"></span>
+          Фрілансери і спеціалісти, які продають послуги в переписці
+        </div>
+        <div class="audience-item">
+          <span class="audience-dot"></span>
+          Всі, хто хоче підвищити конверсію без «впарювання»
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Outcomes — 2nd: продаємо результат, а не курс -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Що ви отримаєте після курсу</h2>
+      <div class="outcomes-list">
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Напишете перше повідомлення, яке клієнт захоче прочитати і відповісти</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Навчитесь вести діалог структуровано — без хаосу і «не знаю що відповісти»</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Знатимете як повернути клієнта, який замовк або зник</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Зможете відповідати на «дорого», «подумаю» і «в конкурентів дешевше» без стресу</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Закриватимете угоди самі — без очікування що клієнт сам скаже «беру»</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Матимете під рукою 30+ готових шаблонів на будь-яку ситуацію</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Збудуєте власну систему роботи з базою клієнтів — нагадування, реактивація, допродажі</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chat Demo — 3rd: доказ що це реально працює -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Як змінюється переписка після курсу</h2>
+      <div class="chat-demo-grid">
+
+        <!-- BAD -->
+        <div class="chat-panel">
+          <div class="chat-panel-header bad">
+            <span class="chat-label-icon">❌</span>
+            До — менеджер без скрипту
+          </div>
+          <div class="chat-body">
+            <div class="chat-row manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble">Добрий день! Мене звати Дарина, я менеджер інтернет-магазину "StyleShop". Ми займаємось продажем жіночого одягу вже 5 років. У нас великий асортимент — плаття, блузи, джинси, верхній одяг. Хочу запропонувати вам ознайомитись з нашим каталогом. Ціни дуже конкурентні, є знижки. Можете подивитись наш сайт або написати що вас цікавить?</div>
+            </div>
+            <div class="chat-row client">
+              <span class="chat-sender">Клієнт</span>
+              <div class="chat-bubble">Привіт, мені цікаво плаття</div>
+            </div>
+            <div class="chat-row manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble">Добре! У нас є багато варіантів. Які розміри вас цікавлять? І який стиль? І який колір? І який бюджет? І для якого приводу?</div>
+            </div>
+            <div class="chat-row client">
+              <span class="chat-sender">Клієнт</span>
+              <div class="chat-bubble">Ну... десь 42-44 розмір</div>
+            </div>
+            <div class="chat-row manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble">Окей! Ось наш каталог: [посилання]. Там можна подивитись всі плаття. Якщо щось сподобається — пишіть!</div>
+            </div>
+            <div class="chat-row client">
+              <span class="chat-sender">Клієнт</span>
+              <div class="chat-bubble">ок дякую</div>
+            </div>
+            <div class="chat-result fail">Клієнт пішов і більше не написав. Угода провалена.</div>
+          </div>
+        </div>
+
+        <!-- GOOD -->
+        <div class="chat-panel">
+          <div class="chat-panel-header good">
+            <span class="chat-label-icon">✅</span>
+            Після — менеджер зі скриптом
+          </div>
+          <div class="chat-body">
+            <div class="chat-row manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble">Аліно, привіт! 👋 Дякую що написали — вже на зв'язку. Підкажіть, плаття для себе шукаєте чи в подарунок?</div>
+            </div>
+            <div class="chat-row client">
+              <span class="chat-sender">Клієнт</span>
+              <div class="chat-bubble">Для себе</div>
+            </div>
+            <div class="chat-row manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble">Зрозуміло 🙂 А для якого приводу — на кожен день чи щось особливе?</div>
+            </div>
+            <div class="chat-row client">
+              <span class="chat-sender">Клієнт</span>
+              <div class="chat-bubble">На роботу, щоб виглядало стильно але не надто строго</div>
+            </div>
+            <div class="chat-row manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble">О, це дуже конкретний запит — і це добре, одразу зрозуміло що шукати 😊 Розмір приблизно який?</div>
+            </div>
+            <div class="chat-row client">
+              <span class="chat-sender">Клієнт</span>
+              <div class="chat-bubble">42-44</div>
+            </div>
+            <div class="chat-row manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble">Чудово! Є три варіанти, які зараз ідеально під ваш запит:<br><br>🖤 Плаття-футляр міді, чорне — класика, яка завжди виглядає дорого. 🏷 1 490 грн<br>💙 Сукня з поясом, темно-синя — трохи м'якше, ніж строгий офіс, але дуже стильно. 🏷 1 290 грн<br>🤍 Плаття-сорочка, бежеве — трендово цього сезону. 🏷 1 190 грн<br><br>Який з варіантів більше до вподоби — хочете побачити фото кожного?</div>
+            </div>
+            <div class="chat-row client">
+              <span class="chat-sender">Клієнт</span>
+              <div class="chat-bubble">Перший і другий цікавлять, покажіть фото</div>
+            </div>
+            <div class="chat-row manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble">Ось фото обох 📸 [фото 1] [фото 2]<br><br>До речі — якщо візьмете обидва, є економія на доставці і можна приміряти вдома 🙂 Який варіант більше "чіпляє"?</div>
+            </div>
+            <div class="chat-row client">
+              <span class="chat-sender">Клієнт</span>
+              <div class="chat-bubble">Перше подобається більше, але дорогувато трохи...</div>
+            </div>
+            <div class="chat-row manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble">Розумію 🙂 Скажіть — дорого в абсолюті, чи просто сумніваєтесь чи воно того варте?</div>
+            </div>
+            <div class="chat-row client">
+              <span class="chat-sender">Клієнт</span>
+              <div class="chat-bubble">Ну просто хочу розуміти за що плачу</div>
+            </div>
+            <div class="chat-row manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble">Справедливо! Це плаття з щільного крепу — не мнеться за день, тримає форму після прання. Клієнтки носять його 2-3 роки і виглядає як нове. По суті — 1 490 грн за річ на роки 🙂<br><br>Оформлюємо?</div>
+            </div>
+            <div class="chat-row client">
+              <span class="chat-sender">Клієнт</span>
+              <div class="chat-bubble">Ок, давайте</div>
+            </div>
+            <div class="chat-row manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble">🎉 Чудово! Підкажіть зручний спосіб доставки — Нова пошта чи кур'єр?</div>
+            </div>
+            <div class="chat-result success">Угода закрита. ✅</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Modules — 4th: тепер читач хоче знати ЯК саме -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Програма курсу</h2>
+      <div class="modules-list">
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">01</span>
+            <div class="module-content">
+              <h3 class="module-title">Основи скриптів</h3>
+              <p class="module-subtitle">Що це і навіщо</p>
+              <div class="module-topics">
+                <span class="module-topic">Золота формула AIDA</span>
+                <span class="module-topic">Мета кожного повідомлення</span>
+                <span class="module-topic">Чому порядок важливіший за слова</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">02</span>
+            <div class="module-content">
+              <h3 class="module-title">Перше повідомлення</h3>
+              <p class="module-subtitle">Як зачепити з першої секунди</p>
+              <div class="module-topics">
+                <span class="module-topic">Формула холодного контакту</span>
+                <span class="module-topic">Приклади «як не треба» і «як треба»</span>
+                <span class="module-topic">Готові шаблони для старту</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">03</span>
+            <div class="module-content">
+              <h3 class="module-title">Підтримка діалогу</h3>
+              <p class="module-subtitle">Як вести розмову до результату</p>
+              <div class="module-topics">
+                <span class="module-topic">Формула «Відповідь → Мікро-підтвердження → Питання»</span>
+                <span class="module-topic">Техніка «Ехо + Питання»</span>
+                <span class="module-topic">Правила ведення діалогу</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">04</span>
+            <div class="module-content">
+              <h3 class="module-title">Клієнт ігнорує</h3>
+              <p class="module-subtitle">Що писати і коли</p>
+              <div class="module-topics">
+                <span class="module-topic">Послідовність фолоу-апів (день 1 → 30)</span>
+                <span class="module-topic">Фрази, які повертають клієнта</span>
+                <span class="module-topic">Типові помилки при ігнорі</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">05</span>
+            <div class="module-content">
+              <h3 class="module-title">Робота із запереченнями</h3>
+              <p class="module-subtitle">Перетворюємо «ні» на «так»</p>
+              <div class="module-topics">
+                <span class="module-topic">«Дорого», «Подумаю», «У конкурентів дешевше»</span>
+                <span class="module-topic">«Немає часу», «Немає довіри»</span>
+                <span class="module-topic">Формула відповіді на заперечення</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">06</span>
+            <div class="module-content">
+              <h3 class="module-title">Закриття угоди</h3>
+              <p class="module-subtitle">Як довести до оплати</p>
+              <div class="module-topics">
+                <span class="module-topic">5 технік закриття: пряме, альтернативне, через дефіцит</span>
+                <span class="module-topic">Закриття через малий крок і резюме</span>
+                <span class="module-topic">Що не говорити після оплати</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">07</span>
+            <div class="module-content">
+              <h3 class="module-title">Повний діалог</h3>
+              <p class="module-subtitle">Від знайомства до оплати</p>
+              <div class="module-topics">
+                <span class="module-topic">Живий розбір діалогу SMM × власниця кав'ярні</span>
+                <span class="module-topic">Ключові моменти кожного кроку</span>
+                <span class="module-topic">Аналіз помилок і рішень</span>
+                <span class="module-topic">Скрипт-конструктор: готові фрази для кожного етапу</span>
+                <span class="module-topic">Блоки: відкриття, потреба, презентація, допродаж, закриття</span>
+                <span class="module-topic">Окремо для нового і постійного клієнта</span>
+                <span class="module-topic">3 сценарії + робота з базою клієнтів</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">08</span>
+            <div class="module-content">
+              <h3 class="module-title">Від автора</h3>
+              <p class="module-subtitle">Те, що не пишуть у підручниках</p>
+              <div class="module-topics">
+                <span class="module-topic">Цікавість, терпіння і чесність як суперсила</span>
+                <span class="module-topic">Системність vs натхнення</span>
+                <span class="module-topic">Як побудувати власну бібліотеку скриптів</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Buy — 5th: CTA коли бажання вже максимальне -->
+  <section class="section">
+    <div class="container">
+      <div class="buy-box">
+        <h2 class="buy-box-title">Придбати курс</h2>
+        <p class="buy-box-desc">Миттєвий доступ до всіх матеріалів після оплати</p>
+        <div class="buy-box-price">489 <span>грн</span></div>
+        <a href="#" class="buy-box-btn">Купити зараз</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-copy">© 2025 Яковенко Руслан. Усі права захищені.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

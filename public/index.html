@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Яковенко Руслан — Школа Бізнесу</title>
+  <meta name="description" content="Практичні курси про продажі, клієнтів та онлайн-бізнес — без води та складної теорії.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --background: #f7f5f2;
+      --foreground: #2d2a26;
+      --card: #fdfcfb;
+      --card-foreground: #2d2a26;
+      --primary: #3d3833;
+      --primary-foreground: #f7f5f2;
+      --secondary: #eeebe6;
+      --secondary-foreground: #3d3833;
+      --muted: #e8e4de;
+      --muted-foreground: #6b6560;
+      --accent: #8b5a3c;
+      --accent-foreground: #faf9f8;
+      --border: #ddd8d1;
+      --radius: 0.75rem;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: var(--background);
+      color: var(--foreground);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .font-serif {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+
+    /* Header */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      width: 100%;
+      border-bottom: 1px solid rgba(221, 216, 209, 0.4);
+      background-color: rgba(247, 245, 242, 0.95);
+      backdrop-filter: blur(8px);
+    }
+
+    .header-inner {
+      max-width: 1152px;
+      margin: 0 auto;
+      display: flex;
+      height: 64px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--foreground);
+      text-decoration: none;
+    }
+
+    .nav {
+      display: none;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-link {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-link:hover {
+      color: var(--foreground);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border-radius: var(--radius);
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+    }
+
+    .btn-primary:hover {
+      background-color: #4a443e;
+    }
+
+    .btn-secondary {
+      background-color: var(--secondary);
+      color: var(--secondary-foreground);
+    }
+
+    .btn-secondary:hover {
+      background-color: #e3dfd8;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--foreground);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--secondary);
+    }
+
+    .btn-sm {
+      padding: 8px 16px;
+      font-size: 0.875rem;
+    }
+
+    .btn-lg {
+      padding: 12px 24px;
+      font-size: 1rem;
+    }
+
+    .btn .btn-arrow {
+      margin-left: 6px;
+      transition: transform 0.2s ease;
+      display: inline-flex;
+    }
+
+    .btn:hover .btn-arrow {
+      transform: translateX(4px);
+    }
+
+    .mobile-menu-btn {
+      display: flex;
+      width: 40px;
+      height: 40px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 64px 0 80px;
+    }
+
+    .container {
+      max-width: 1152px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .hero-grid {
+      display: grid;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 2.5rem;
+      font-weight: 600;
+      line-height: 1.1;
+      color: var(--foreground);
+    }
+
+    .hero-subtitle {
+      margin-top: 24px;
+      font-size: 1.125rem;
+      color: var(--muted-foreground);
+      max-width: 512px;
+    }
+
+    .hero-buttons {
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .hero-image {
+      display: flex;
+      justify-content: center;
+    }
+
+    .hero-image img {
+      width: 288px;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+      object-fit: cover;
+    }
+
+    /* Section styles */
+    .section {
+      padding: 64px 0;
+    }
+
+    .section-alt {
+      background-color: rgba(238, 235, 230, 0.5);
+    }
+
+    .section-header {
+      text-align: center;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.875rem;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+
+    .section-subtitle {
+      margin-top: 16px;
+      color: var(--muted-foreground);
+      max-width: 672px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Cards grid */
+    .grid-4 {
+      display: grid;
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .grid-3 {
+      display: grid;
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    /* Audience cards */
+    .audience-card {
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background-color: var(--card);
+      transition: all 0.2s;
+    }
+
+    .audience-card:hover {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .icon-box {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background-color: var(--secondary);
+    }
+
+    .icon-box svg {
+      width: 24px;
+      height: 24px;
+      color: var(--foreground);
+    }
+
+    .card-title {
+      margin-top: 16px;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+
+    .card-desc {
+      margin-top: 8px;
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+    }
+
+    /* Course cards */
+    .course-card {
+      display: flex;
+      flex-direction: column;
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background-color: var(--card);
+      transition: all 0.2s;
+    }
+
+    .course-card:hover {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .course-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--foreground);
+      line-height: 1.4;
+    }
+
+    .course-desc {
+      margin-top: 12px;
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+      flex: 1;
+    }
+
+    .course-footer {
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .course-price {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+
+    .course-price span {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--muted-foreground);
+    }
+
+    /* Steps */
+    .steps-grid {
+      display: grid;
+      gap: 32px;
+      margin-top: 48px;
+    }
+
+    .step-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .step-icon {
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background-color: var(--primary);
+      margin-bottom: 16px;
+    }
+
+    .step-icon svg {
+      width: 24px;
+      height: 24px;
+      color: var(--primary-foreground);
+    }
+
+    .step-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted-foreground);
+    }
+
+    .step-title {
+      margin-top: 8px;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+
+    .step-desc {
+      margin-top: 8px;
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+    }
+
+    /* Benefits */
+    .benefit-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background-color: var(--card);
+      transition: all 0.2s;
+    }
+
+    .benefit-card:hover {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .benefit-icon {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background-color: var(--secondary);
+      flex-shrink: 0;
+    }
+
+    .benefit-icon svg {
+      width: 20px;
+      height: 20px;
+      color: var(--foreground);
+    }
+
+    .benefit-title {
+      font-weight: 500;
+      color: var(--foreground);
+    }
+
+    .benefit-desc {
+      margin-top: 4px;
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+    }
+
+    /* CTA */
+    .cta-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 48px 24px;
+      border-radius: 16px;
+      background-color: var(--primary);
+    }
+
+    .cta-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.875rem;
+      font-weight: 600;
+      color: var(--primary-foreground);
+    }
+
+    .cta-desc {
+      margin-top: 16px;
+      color: rgba(247, 245, 242, 0.8);
+      max-width: 576px;
+    }
+
+    .cta-box .btn {
+      margin-top: 32px;
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border);
+      background-color: var(--card);
+      padding: 48px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .footer-brand {
+      text-align: center;
+    }
+
+    .footer-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+
+    .footer-subtitle {
+      margin-top: 8px;
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 16px;
+    }
+
+    .social-link {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background-color: var(--secondary);
+      color: var(--foreground);
+      transition: background-color 0.2s;
+    }
+
+    .social-link:hover {
+      background-color: var(--muted);
+    }
+
+    .social-link svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .footer-bottom {
+      margin-top: 32px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-links a {
+      color: var(--muted-foreground);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--foreground);
+    }
+
+    /* Responsive */
+    .course-card-featured {
+      border-color: var(--accent);
+      border-width: 2px;
+      position: relative;
+    }
+
+    .course-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background-color: var(--accent);
+      color: var(--accent-foreground);
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .course-price-old {
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+      text-decoration: line-through;
+      margin-right: 6px;
+    }
+
+    .course-price-new {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .course-price-new span {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--muted-foreground);
+    }
+
+    /* Comparison Section */
+    .comparison-grid {
+      display: grid;
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .comparison-col {
+      background-color: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .comparison-col-bad {
+      border-top: 3px solid #c0756a;
+    }
+
+    .comparison-col-good {
+      border-top: 3px solid #5a8a6a;
+    }
+
+    .comparison-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 20px;
+      font-weight: 600;
+      font-size: 0.9375rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .comparison-label-bad {
+      color: #9e3a3a;
+      background-color: #fdf4f4;
+    }
+
+    .comparison-label-good {
+      color: #2a6045;
+      background-color: #f2faf5;
+    }
+
+    .comparison-label svg {
+      flex-shrink: 0;
+    }
+
+    .chat-window {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+      overflow-y: auto;
+      max-height: 480px;
+    }
+
+    .chat-msg {
+      display: flex;
+      flex-direction: column;
+      max-width: 85%;
+    }
+
+    .chat-msg-manager {
+      align-self: flex-end;
+      align-items: flex-end;
+    }
+
+    .chat-msg-client {
+      align-self: flex-start;
+      align-items: flex-start;
+    }
+
+    .chat-sender {
+      font-size: 0.6875rem;
+      color: var(--muted-foreground);
+      margin-bottom: 3px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .chat-bubble {
+      padding: 9px 13px;
+      border-radius: 16px;
+      font-size: 0.8125rem;
+      line-height: 1.55;
+    }
+
+    .chat-bubble-manager {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+      border-bottom-right-radius: 4px;
+    }
+
+    .chat-bubble-client {
+      background-color: var(--secondary);
+      color: var(--secondary-foreground);
+      border-bottom-left-radius: 4px;
+    }
+
+    .comparison-result {
+      margin: 12px 16px 16px;
+      padding: 11px 16px;
+      border-radius: 8px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      text-align: center;
+      letter-spacing: 0.01em;
+    }
+
+    .comparison-result-bad {
+      background-color: #fdf4f4;
+      color: #9e3a3a;
+      border: 1px solid #ecc8c8;
+    }
+
+    .comparison-result-good {
+      background-color: #f2faf5;
+      color: #2a6045;
+      border: 1px solid #b7dfc8;
+    }
+
+    @media (min-width: 640px) {
+      .hero-title {
+        font-size: 3rem;
+      }
+
+      .hero-buttons {
+        flex-direction: row;
+        gap: 16px;
+      }
+
+      .hero-image img {
+        width: 320px;
+      }
+
+      .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .steps-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-inner {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      .footer-brand {
+        text-align: left;
+      }
+
+      .footer-bottom {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .nav {
+        display: flex;
+      }
+
+      .mobile-menu-btn {
+        display: none;
+      }
+
+      .logo {
+        font-size: 1.25rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .hero {
+        padding: 112px 0;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 64px;
+      }
+
+      .hero-title {
+        font-size: 3.75rem;
+      }
+
+      .hero-image {
+        justify-content: flex-end;
+      }
+
+      .hero-image img {
+        width: 384px;
+      }
+
+      .section {
+        padding: 96px 0;
+      }
+
+      .section-title {
+        font-size: 2.25rem;
+      }
+
+      .grid-4 {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .grid-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .steps-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .cta-box {
+        padding: 80px 48px;
+      }
+
+      .cta-title {
+        font-size: 2.25rem;
+      }
+
+      .comparison-grid {
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="#" class="logo">Яковенко Руслан</a>
+      <nav class="nav">
+        <a href="#courses" class="nav-link">Курси</a>
+        <a href="#how-it-works" class="nav-link">Як це працює</a>
+        <a href="#benefits" class="nav-link">Переваги</a>
+        <a href="#courses" class="btn btn-primary btn-sm">Обрати курс</a>
+      </nav>
+      <button class="mobile-menu-btn" aria-label="Меню">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" x2="20" y1="12" y2="12"></line>
+          <line x1="4" x2="20" y1="6" y2="6"></line>
+          <line x1="4" x2="20" y1="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <h1 class="hero-title">Практичні курси про продажі та бізнес</h1>
+          <p class="hero-subtitle">Без води та складної теорії. Матеріали створені простою мовою з прикладами, які можна одразу застосувати в роботі.</p>
+          <div class="hero-buttons">
+            <a href="#courses" class="btn btn-primary btn-lg">Переглянути курси</a>
+            <a href="#courses" class="btn btn-outline btn-lg">Придбати курс</a>
+          </div>
+        </div>
+        <div class="hero-image">
+          <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-n9s78e0rni6x8tnnvgxpBvMTrgIU27.png" alt="Яковенко Руслан - автор курсів">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Audience Section -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Для кого ці курси</h2>
+        <p class="section-subtitle">Матеріали підійдуть всім, хто хоче розвиватись у сфері продажів та бізнесу</p>
+      </div>
+      <div class="grid-4">
+        <div class="audience-card">
+          <div class="icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>
+          </div>
+          <h3 class="card-title">Для підприємців</h3>
+          <p class="card-desc">Хто хоче систематизувати продажі та збільшити прибуток</p>
+        </div>
+        <div class="audience-card">
+          <div class="icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3 class="card-title">Для менеджерів продажів</h3>
+          <p class="card-desc">Хто бажає покращити свої навички та результати</p>
+        </div>
+        <div class="audience-card">
+          <div class="icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          </div>
+          <h3 class="card-title">Для онлайн-магазинів</h3>
+          <p class="card-desc">Хто хоче збільшити конверсію та середній чек</p>
+        </div>
+        <div class="audience-card">
+          <div class="icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+          </div>
+          <h3 class="card-title">Для початківців</h3>
+          <p class="card-desc">Хто планує почати заробляти онлайн з нуля</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Courses Section -->
+  <section id="courses" class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Доступні курси</h2>
+        <p class="section-subtitle">Оберіть курс, який відповідає вашим потребам та цілям</p>
+      </div>
+      <div class="grid-3">
+        <div class="course-card">
+          <h3 class="course-title">Переписка, яка продає. Скрипти від першого «привіт» до оплати</h3>
+          <p class="course-desc">Клієнт написав — і зник. Знайоме? Курс покаже, як вести переписку так, щоб «подумаю» перетворювалось на «оформлюємо».</p>
+          <div class="course-footer">
+            <span class="course-price">489 <span>грн</span></span>
+            <a href="course-scripts.html" target="_blank" class="btn btn-primary btn-sm">Відкрити курс <span class="btn-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+          </div>
+        </div>
+        <div class="course-card">
+          <h3 class="course-title">Робота з теплою базою клієнтів. Поради та червоні прапорці</h3>
+          <p class="course-desc">Як працювати з постійними клієнтами, не втрачати довіру та збільшувати повторні продажі.</p>
+          <div class="course-footer">
+            <span class="course-price">580 <span>грн</span></span>
+            <a href="#" class="btn btn-primary btn-sm">Відкрити курс <span class="btn-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+          </div>
+        </div>
+        <div class="course-card">
+          <h3 class="course-title">Психологія грошей. Мислення багатих</h3>
+          <p class="course-desc">Про фінансове мислення, звички та психологію ставлення до грошей.</p>
+          <div class="course-footer">
+            <span class="course-price">1200 <span>грн</span></span>
+            <a href="#" class="btn btn-primary btn-sm">Відкрити курс <span class="btn-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+          </div>
+        </div>
+        <div class="course-card">
+          <h3 class="course-title">Початковий підприємець. Базові знання які має знати кожен</h3>
+          <p class="course-desc">База для тих, хто запускає власну справу або лише планує старт.</p>
+          <div class="course-footer">
+            <span class="course-price">1000 <span>грн</span></span>
+            <a href="#" class="btn btn-primary btn-sm">Відкрити курс <span class="btn-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+          </div>
+        </div>
+        <div class="course-card">
+          <h3 class="course-title">Допродажі в переписці. Допродажі на сайті</h3>
+          <p class="course-desc">Практичні методи збільшення середнього чеку через переписку та сайт.</p>
+          <div class="course-footer">
+            <span class="course-price">700 <span>грн</span></span>
+            <a href="#" class="btn btn-primary btn-sm">Відкрити курс <span class="btn-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+          </div>
+        </div>
+        <div class="course-card course-card-featured">
+          <h3 class="course-title">Повний пакет курсів. Усі 5 курсів в одному</h3>
+          <p class="course-desc">Отримайте доступ до всіх курсів одразу — від скриптів продажів до психології грошей. Максимум знань за мінімальну ціну.</p>
+          <div class="course-footer">
+            <div>
+              <span class="course-price-old">3 969 грн</span>
+              <span class="course-price-new">2 969 <span>грн</span></span>
+            </div>
+            <a href="#" class="btn btn-primary btn-sm">Відкрити курс <span class="btn-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Section -->
+  <section id="comparison" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Як змінюється переписка після курсу</h2>
+        <p class="section-subtitle">Один і той самий клієнт — два різних результати</p>
+      </div>
+      <div class="comparison-grid">
+
+        <!-- BEFORE -->
+        <div class="comparison-col comparison-col-bad">
+          <div class="comparison-label comparison-label-bad">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            До — менеджер без скрипту
+          </div>
+          <div class="chat-window">
+            <div class="chat-msg chat-msg-manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble chat-bubble-manager">Добрий день! Мене звати Дарина, я менеджер інтернет-магазину «StyleShop». Ми займаємось продажем жіночого одягу вже 5 років. У нас великий асортимент — плаття, блузи, джинси, верхній одяг. Хочу запропонувати вам ознайомитись з нашим каталогом. Ціни дуже конкурентні, є знижки. Можете подивитись наш сайт або написати що вас цікавить?</div>
+            </div>
+            <div class="chat-msg chat-msg-client">
+              <span class="chat-sender">Клієнт</span>
+              <div class="chat-bubble chat-bubble-client">Привіт, мені цікаво плаття</div>
+            </div>
+            <div class="chat-msg chat-msg-manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble chat-bubble-manager">Добре! У нас є багато варіантів. Які розміри вас цікавлять? І який стиль? І який колір? І який бюджет? І для якого приводу?</div>
+            </div>
+            <div class="chat-msg chat-msg-client">
+              <span class="chat-sender">Клієнт</span>
+              <div class="chat-bubble chat-bubble-client">Ну... десь 42-44 розмір</div>
+            </div>
+            <div class="chat-msg chat-msg-manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble chat-bubble-manager">Окей! Ось наш каталог: [посилання]. Там можна подивитись всі плаття. Якщо щось сподобається — пишіть!</div>
+            </div>
+            <div class="chat-msg chat-msg-client">
+              <span class="chat-sender">Клієнт</span>
+              <div class="chat-bubble chat-bubble-client">ок дякую</div>
+            </div>
+          </div>
+          <div class="comparison-result comparison-result-bad">Клієнт пішов і більше не написав. Угода провалена.</div>
+        </div>
+
+        <!-- AFTER -->
+        <div class="comparison-col comparison-col-good">
+          <div class="comparison-label comparison-label-good">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+            Після — менеджер зі скриптом
+          </div>
+          <div class="chat-window">
+            <div class="chat-msg chat-msg-manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble chat-bubble-manager">Аліно, привіт! 👋 Дякую що написали — вже на зв'язку. Підкажіть, плаття для себе шукаєте чи в подарунок?</div>
+            </div>
+            <div class="chat-msg chat-msg-client">
+              <span class="chat-sender">Клієнт</span>
+              <div class="chat-bubble chat-bubble-client">Для себе</div>
+            </div>
+            <div class="chat-msg chat-msg-manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble chat-bubble-manager">Зрозуміло 🙂 А для якого приводу — на кожен день чи щось особливе?</div>
+            </div>
+            <div class="chat-msg chat-msg-client">
+              <span class="chat-sender">Клієнт</span>
+              <div class="chat-bubble chat-bubble-client">На роботу, щоб виглядало стильно але не надто строго</div>
+            </div>
+            <div class="chat-msg chat-msg-manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble chat-bubble-manager">О, це дуже конкретний запит — і це добре, одразу зрозуміло що шукати 😊 Розмір приблизно який?</div>
+            </div>
+            <div class="chat-msg chat-msg-client">
+              <span class="chat-sender">Клієнт</span>
+              <div class="chat-bubble chat-bubble-client">42-44</div>
+            </div>
+            <div class="chat-msg chat-msg-manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble chat-bubble-manager">Чудово! Є три варіанти, які зараз ідеально під ваш запит:<br><br>🖤 Плаття-футляр міді, чорне — класика, яка завжди виглядає дорого. 🏷 1 490 грн<br>💙 Сукня з поясом, темно-синя — трохи м'якше за офіс, але дуже стильно. 🏷 1 290 грн<br>🤍 Плаття-сорочка, бежеве — трендово цього сезону. 🏷 1 190 грн<br><br>Який з варіантів більше до вподоби — хочете побачити фото кожного?</div>
+            </div>
+            <div class="chat-msg chat-msg-client">
+              <span class="chat-sender">Клієнт</span>
+              <div class="chat-bubble chat-bubble-client">Перший і другий цікавлять, покажіть фото</div>
+            </div>
+            <div class="chat-msg chat-msg-manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble chat-bubble-manager">Ось фото обох 📸 [фото 1] [фото 2]<br><br>До речі — якщо візьмете обидва, є економія на доставці і можна приміряти вдома 🙂 Який варіант більше «чіпляє»?</div>
+            </div>
+            <div class="chat-msg chat-msg-client">
+              <span class="chat-sender">Клієнт</span>
+              <div class="chat-bubble chat-bubble-client">Перше подобається більше, але дорогувато трохи...</div>
+            </div>
+            <div class="chat-msg chat-msg-manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble chat-bubble-manager">Розумію 🙂 Скажіть — дорого в абсолюті, чи просто сумніваєтесь чи воно того варте?</div>
+            </div>
+            <div class="chat-msg chat-msg-client">
+              <span class="chat-sender">Клієнт</span>
+              <div class="chat-bubble chat-bubble-client">Ну просто хочу розуміти за що плачу</div>
+            </div>
+            <div class="chat-msg chat-msg-manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble chat-bubble-manager">Справедливо! Це плаття з щільного крепу — не мнеться за день, тримає форму після прання. Клієнтки носять його 2-3 роки і виглядає як нове. По суті — 1 490 грн за річ на роки 🙂<br><br>Оформлюємо?</div>
+            </div>
+            <div class="chat-msg chat-msg-client">
+              <span class="chat-sender">Клієнт</span>
+              <div class="chat-bubble chat-bubble-client">Ок, давайте</div>
+            </div>
+            <div class="chat-msg chat-msg-manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble chat-bubble-manager">🎉 Чудово! Підкажіть зручний спосіб доставки — Нова пошта чи кур'єр?</div>
+            </div>
+          </div>
+          <div class="comparison-result comparison-result-good">Угода закрита. Клієнт задоволений. ✅</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works Section -->
+  <section id="how-it-works" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Як проходить навчання</h2>
+        <p class="section-subtitle">Простий шлях від вибору курсу до отримання знань</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-item">
+          <div class="step-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 9 5 12 1.8-5.2L21 14Z"/><path d="M7.2 2.2 8 5.1"/><path d="m5.1 8-2.9-.8"/><path d="M14 4.1 12 6"/><path d="m6 12-1.9 2"/></svg>
+          </div>
+          <span class="step-label">Крок 1</span>
+          <h3 class="step-title">Обираєте курс</h3>
+          <p class="step-desc">Перегляньте доступні курси та оберіть той, що вам підходить</p>
+        </div>
+        <div class="step-item">
+          <div class="step-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+          </div>
+          <span class="step-label">Крок 2</span>
+          <h3 class="step-title">Оплачуєте онлайн</h3>
+          <p class="step-desc">Швидка та безпечна оплата картою або іншим зручним способом</p>
+        </div>
+        <div class="step-item">
+          <div class="step-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+          </div>
+          <span class="step-label">Крок 3</span>
+          <h3 class="step-title">Отримуєте доступ</h3>
+          <p class="step-desc">Миттєвий доступ до всіх матеріалів курсу після оплати</p>
+        </div>
+        <div class="step-item">
+          <div class="step-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
+          </div>
+          <span class="step-label">Крок 4</span>
+          <h3 class="step-title">Проходите навчання</h3>
+          <p class="step-desc">Навчайтесь у зручний час та у власному темпі</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section id="benefits" class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Переваги навчання</h2>
+        <p class="section-subtitle">Чому варто обрати наші курси</p>
+      </div>
+      <div class="grid-3">
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <h3 class="benefit-title">Короткі уроки</h3>
+            <p class="benefit-desc">Компактні відео без зайвої інформації</p>
+          </div>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          </div>
+          <div>
+            <h3 class="benefit-title">Практична інформація</h3>
+            <p class="benefit-desc">Тільки те, що можна застосувати одразу</p>
+          </div>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+          </div>
+          <div>
+            <h3 class="benefit-title">Реальні приклади</h3>
+            <p class="benefit-desc">Кейси з реальних продажів та бізнесу</p>
+          </div>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+          </div>
+          <div>
+            <h3 class="benefit-title">Доступ із телефону</h3>
+            <p class="benefit-desc">Навчайтесь будь-де, будь-коли</p>
+          </div>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <div>
+            <h3 class="benefit-title">Зрозуміла подача</h3>
+            <p class="benefit-desc">Проста мова без складних термінів</p>
+          </div>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>
+          </div>
+          <div>
+            <h3 class="benefit-title">Власний темп</h3>
+            <p class="benefit-desc">Проходьте курс у зручному для вас ритмі</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section">
+    <div class="container">
+      <div class="cta-box">
+        <h2 class="cta-title">Почніть навчання вже сьогодні</h2>
+        <p class="cta-desc">Отримайте практичні знання, які допоможуть вам досягти успіху в продажах та бізнесі</p>
+        <a href="#courses" class="btn btn-secondary btn-lg">
+          Обрати курс
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 8px;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-title">Яковенко Руслан — Школа Бізнесу</span>
+          <p class="footer-subtitle">Практичні знання для вашого успіху</p>
+        </div>
+        <div class="social-links">
+          <a href="https://t.me/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Telegram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+          </a>
+          <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Яковенко Руслан. Усі права захищені.</p>
+        <div class="footer-links">
+          <a href="#">Контакти</a>
+          <a href="#">Політика конфіденційності</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
