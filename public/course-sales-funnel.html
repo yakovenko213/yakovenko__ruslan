@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Воронка продажів: TikTok → Instagram → Telegram → Сайт — Яковенко Руслан</title>
+  <meta name="description" content="Побудуй системну воронку продажів через контент без бюджету на рекламу. 16 модулів, кейси, скрипти, автоматизація.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --background: #f7f5f2;
+      --foreground: #2d2a26;
+      --card: #fdfcfb;
+      --card-foreground: #2d2a26;
+      --primary: #3d3833;
+      --primary-foreground: #f7f5f2;
+      --secondary: #eeebe6;
+      --secondary-foreground: #3d3833;
+      --muted: #e8e4de;
+      --muted-foreground: #6b6560;
+      --accent: #8b5a3c;
+      --accent-foreground: #faf9f8;
+      --border: #ddd8d1;
+      --radius: 0.75rem;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: var(--background);
+      color: var(--foreground);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      width: 100%;
+      border-bottom: 1px solid rgba(221, 216, 209, 0.4);
+      background-color: rgba(247, 245, 242, 0.95);
+      backdrop-filter: blur(8px);
+    }
+
+    .header-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      height: 64px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--foreground);
+      text-decoration: none;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border-radius: var(--radius);
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--foreground);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover { background-color: var(--secondary); }
+
+    .btn-sm { padding: 8px 16px; font-size: 0.875rem; }
+
+    .course-hero {
+      padding: 56px 0 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .course-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background-color: var(--secondary);
+      color: var(--muted-foreground);
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 20px;
+    }
+
+    .course-hero-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 2rem;
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--foreground);
+    }
+
+    .course-hero-desc {
+      margin-top: 16px;
+      font-size: 1.0625rem;
+      color: var(--muted-foreground);
+      max-width: 600px;
+    }
+
+    .section { padding: 56px 0; }
+    .section-alt { background-color: rgba(238, 235, 230, 0.5); }
+
+    .section-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 32px;
+    }
+
+    /* Funnel flow */
+    .funnel-flow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    .funnel-step {
+      width: 100%;
+      max-width: 480px;
+      padding: 20px 24px 22px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background-color: var(--card);
+      text-align: center;
+      position: relative;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .funnel-step:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+      transform: translateY(-2px);
+    }
+
+    .funnel-step-num {
+      position: absolute;
+      top: 10px;
+      left: 12px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--muted-foreground);
+      letter-spacing: 0.05em;
+    }
+
+    .funnel-step-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px;
+    }
+
+    .funnel-step-icon-wrap svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .funnel-step-label {
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: var(--foreground);
+      letter-spacing: -0.01em;
+    }
+
+    .funnel-step-desc {
+      font-size: 0.8rem;
+      color: var(--muted-foreground);
+      margin-top: 3px;
+      line-height: 1.4;
+    }
+
+    .funnel-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--border);
+      margin: 6px 0;
+    }
+
+    .funnel-arrow svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Modules */
+    .modules-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .part-divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 8px 0 4px;
+    }
+
+    .part-divider-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+
+    .part-divider-line {
+      flex: 1;
+      height: 1px;
+      background-color: var(--border);
+    }
+
+    .module-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background-color: var(--card);
+      overflow: hidden;
+    }
+
+    .module-card.new-module {
+      border-color: var(--accent);
+    }
+
+    .module-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 24px;
+    }
+
+    .module-number {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--muted);
+      line-height: 1;
+      flex-shrink: 0;
+      min-width: 36px;
+    }
+
+    .module-content { flex: 1; }
+
+    .module-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.0625rem;
+      font-weight: 600;
+      color: var(--foreground);
+      line-height: 1.3;
+    }
+
+    .module-new-badge {
+      display: inline-block;
+      margin-left: 8px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background-color: var(--accent);
+      color: var(--accent-foreground);
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      vertical-align: middle;
+    }
+
+    .module-topics {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .module-topic {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+    }
+
+    .module-topic::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: var(--border);
+      flex-shrink: 0;
+      margin-top: 7px;
+    }
+
+    .outcomes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .outcome-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px 20px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background-color: var(--card);
+    }
+
+    .outcome-check {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background-color: var(--primary);
+      margin-top: 1px;
+    }
+
+    .outcome-check svg {
+      width: 11px;
+      height: 11px;
+      color: var(--primary-foreground);
+    }
+
+    .outcome-text {
+      font-size: 0.9375rem;
+      color: var(--foreground);
+      line-height: 1.5;
+    }
+
+    .audience-list { display: grid; gap: 12px; }
+
+    .audience-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background-color: var(--card);
+      font-size: 0.9375rem;
+      color: var(--foreground);
+    }
+
+    .audience-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .buy-box {
+      background-color: var(--primary);
+      border-radius: 16px;
+      padding: 40px 32px;
+      text-align: center;
+    }
+
+    .buy-box-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary-foreground);
+    }
+
+    .buy-box-desc {
+      margin-top: 8px;
+      font-size: 0.9375rem;
+      color: rgba(247, 245, 242, 0.7);
+    }
+
+    .buy-box-price {
+      margin-top: 24px;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-foreground);
+      line-height: 1;
+    }
+
+    .buy-box-price span {
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: rgba(247, 245, 242, 0.7);
+    }
+
+    @keyframes btn-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(247, 245, 242, 0.5); }
+      50%       { box-shadow: 0 0 0 8px rgba(247, 245, 242, 0); }
+    }
+
+    .buy-box-btn {
+      margin-top: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 36px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: var(--radius);
+      background-color: var(--primary-foreground);
+      color: var(--primary);
+      text-decoration: none;
+      transition: opacity 0.2s;
+      animation: btn-pulse 2.4s ease-in-out infinite;
+    }
+
+    .buy-box-btn:hover { opacity: 0.9; animation: none; }
+
+    .footer {
+      border-top: 1px solid var(--border);
+      background-color: var(--card);
+      padding: 32px 0;
+      text-align: center;
+    }
+
+    .footer-copy { font-size: 0.875rem; color: var(--muted-foreground); }
+
+    @media (min-width: 640px) {
+      .course-hero-title { font-size: 2.5rem; }
+      .audience-list { grid-template-columns: repeat(2, 1fr); }
+      .funnel-flow { flex-direction: row; align-items: center; justify-content: center; }
+      .funnel-step { max-width: none; flex: 1; }
+      .funnel-arrow { transform: rotate(-90deg); margin: 0 2px; }
+    }
+
+    @media (min-width: 768px) {
+      .module-header { padding: 24px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">Яковенко Руслан</a>
+      <a href="index.html" class="btn btn-outline btn-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+        На головну
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="course-hero">
+    <div class="container">
+      <h1 class="course-hero-title">Воронка продажів: система від перегляду до оплати</h1>
+      <p class="course-hero-desc">TikTok → Instagram → Telegram → Сайт. Як перетворити контент на стабільні продажі — без великого бюджету на рекламу і без хаосу.</p>
+    </div>
+  </section>
+
+  <!-- Funnel flow -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Система, яку ви побудуєте</h2>
+      <div class="funnel-flow">
+
+        <div class="funnel-step">
+          <span class="funnel-step-num">01</span>
+          <div class="funnel-step-icon-wrap" style="background-color:#f0f0ff;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#5b5bd6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          </div>
+          <div class="funnel-step-label">TikTok</div>
+          <div class="funnel-step-desc">Безкоштовний трафік</div>
+        </div>
+
+        <div class="funnel-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </div>
+
+        <div class="funnel-step">
+          <span class="funnel-step-num">02</span>
+          <div class="funnel-step-icon-wrap" style="background-color:#fff0f5;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#e0457b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+          </div>
+          <div class="funnel-step-label">Instagram</div>
+          <div class="funnel-step-desc">Прогрів і довіра</div>
+        </div>
+
+        <div class="funnel-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </div>
+
+        <div class="funnel-step">
+          <span class="funnel-step-num">03</span>
+          <div class="funnel-step-icon-wrap" style="background-color:#eff8ff;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#2aabee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+          </div>
+          <div class="funnel-step-label">Telegram</div>
+          <div class="funnel-step-desc">Утримання і авто-продажі</div>
+        </div>
+
+        <div class="funnel-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </div>
+
+        <div class="funnel-step">
+          <span class="funnel-step-num">04</span>
+          <div class="funnel-step-icon-wrap" style="background-color:#f0faf5;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#2e8b57" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+          </div>
+          <div class="funnel-step-label">Сайт</div>
+          <div class="funnel-step-desc">Конверсія в оплату</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Audience -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Для кого цей курс</h2>
+      <div class="audience-list">
+        <div class="audience-item">
+          <span class="audience-dot"></span>
+          Підприємцям, які вже щось продають але хаотично — без системи і без розуміння де втрачаються клієнти
+        </div>
+        <div class="audience-item">
+          <span class="audience-dot"></span>
+          Фрілансерам і спеціалістам, які хочуть перейти в онлайн і залучати клієнтів через контент без бюджету
+        </div>
+        <div class="audience-item">
+          <span class="audience-dot"></span>
+          Власникам малого бізнесу — магазини, послуги, handmade, курси — хто самостійно веде соцмережі
+        </div>
+        <div class="audience-item">
+          <span class="audience-dot"></span>
+          Новачкам, які тільки починають і хочуть відразу побудувати систему — а не виправляти помилки через рік
+        </div>
+        <div class="audience-item">
+          <span class="audience-dot"></span>
+          Всім, хто веде контент, отримує перегляди і підписників, але не розуміє чому це не конвертується в продажі
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Outcomes -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Що ви отримаєте після курсу</h2>
+      <div class="outcomes-list">
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Готову воронку TikTok → Instagram → Telegram → Сайт — зібрану і перевірену крок за кроком</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Контент-план на місяць і систему зйомки, яка займає 2–3 години на тиждень замість щоденного стресу</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Автоворонку в Telegram, яка прогріває нових підписників і пропонує продукт без вашої участі</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">30+ шаблонів повідомлень для кожного етапу — привітання, виявлення потреби, закриття, фолоу-ап</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Навичку відповідати на «дорого», «подумаю» і «у конкурентів дешевше» — без знижок і без стресу</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Розуміння психології покупця — 7 тригерів рішення, які роблять контент і переписку в рази ефективнішими</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Три повних кейси з цифрами — косметика, репетитор, стиліст — які можна повторити під свою нішу</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Таблицю діагностики воронки з нормами — щоб щомісяця за 30 хвилин знаходити де зараз втрачаються гроші</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Збільшення продажів без збільшення рекламного бюджету — просто за рахунок правильної системи</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modules -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Програма курсу</h2>
+      <div class="modules-list">
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">В</span>
+            <div class="module-content">
+              <h3 class="module-title">Вступ: чому воронка — це система, а не «магія алгоритмів»</h3>
+              <div class="module-topics">
+                <span class="module-topic">Формула «контент → довіра → продаж» і чому більшість зупиняється на першому кроці</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="part-divider">
+          <span class="part-divider-label">Основна система</span>
+          <span class="part-divider-line"></span>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">01</span>
+            <div class="module-content">
+              <h3 class="module-title">Що таке воронка продажів</h3>
+              <div class="module-topics">
+                <span class="module-topic">Шлях клієнта від незнайомця до покупця</span>
+                <span class="module-topic">Чому є перегляди але немає продажів</span>
+                <span class="module-topic">Приклади простих воронок для різних ніш</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">02</span>
+            <div class="module-content">
+              <h3 class="module-title">Підготовка перед запуском</h3>
+              <div class="module-topics">
+                <span class="module-topic">Як вибрати товар або послугу і зрозуміти свою аудиторію</span>
+                <span class="module-topic">Упаковка Instagram і Telegram</span>
+                <span class="module-topic">Сайт і базові сервіси для старту</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">03</span>
+            <div class="module-content">
+              <h3 class="module-title">TikTok — джерело безкоштовного трафіку</h3>
+              <div class="module-topics">
+                <span class="module-topic">Як працює алгоритм і формула вірусного ролика</span>
+                <span class="module-topic">Ідеї відео для товарів і послуг</span>
+                <span class="module-topic">Як переводити людей у воронку</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">04</span>
+            <div class="module-content">
+              <h3 class="module-title">Instagram як прогрів і довіра</h3>
+              <div class="module-topics">
+                <span class="module-topic">Сторіс, Рілс і Пости — що і коли публікувати</span>
+                <span class="module-topic">Тиждень прогріву по днях</span>
+                <span class="module-topic">Як відповідати в Direct щоб продавати</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">05</span>
+            <div class="module-content">
+              <h3 class="module-title">Telegram для продажів і утримання</h3>
+              <div class="module-topics">
+                <span class="module-topic">Лід-магніт і як переводити аудиторію</span>
+                <span class="module-topic">Контент-мікс без спаму</span>
+                <span class="module-topic">Автоворонки і боти — покроково</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">06</span>
+            <div class="module-content">
+              <h3 class="module-title">Сайт, який допомагає продавати</h3>
+              <div class="module-topics">
+                <span class="module-topic">Лендинг vs інтернет-магазин — що обрати</span>
+                <span class="module-topic">Структура сторінки що продає</span>
+                <span class="module-topic">SEO для початківців і підключення аналітики</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">07</span>
+            <div class="module-content">
+              <h3 class="module-title">Як з'єднати все в одну систему</h3>
+              <div class="module-topics">
+                <span class="module-topic">Повна схема воронки</span>
+                <span class="module-topic">Де люди «відвалюються» і чому</span>
+                <span class="module-topic">5 способів підвищити конверсію без реклами</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">08</span>
+            <div class="module-content">
+              <h3 class="module-title">Контент-план для новачка</h3>
+              <div class="module-topics">
+                <span class="module-topic">Формула балансу 40/30/20/10</span>
+                <span class="module-topic">Шаблон контенту на місяць вперед</span>
+                <span class="module-topic">Як знімати швидко і без вигорання</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">09</span>
+            <div class="module-content">
+              <h3 class="module-title">Реклама для початківців</h3>
+              <div class="module-topics">
+                <span class="module-topic">Коли запускати рекламу</span>
+                <span class="module-topic">TikTok Ads і Instagram Ads базово</span>
+                <span class="module-topic">Аналіз результатів — CTR, CPM, CPC</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">10</span>
+            <div class="module-content">
+              <h3 class="module-title">Автоматизація та масштабування</h3>
+              <div class="module-topics">
+                <span class="module-topic">Автовідповіді і CRM</span>
+                <span class="module-topic">Що делегувати першим</span>
+                <span class="module-topic">Щотижневий ритм — плануй, знімай, аналізуй</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="part-divider">
+          <span class="part-divider-label">Нові модулі ✦</span>
+          <span class="part-divider-line"></span>
+        </div>
+
+        <div class="module-card new-module">
+          <div class="module-header">
+            <span class="module-number">11</span>
+            <div class="module-content">
+              <h3 class="module-title">Психологія покупця <span class="module-new-badge">Новий</span></h3>
+              <div class="module-topics">
+                <span class="module-topic">7 тригерів прийняття рішення</span>
+                <span class="module-topic">Страхи покупця і як їх знімати</span>
+                <span class="module-topic">Чому люди купують дорожче і що на це впливає</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card new-module">
+          <div class="module-header">
+            <span class="module-number">12</span>
+            <div class="module-content">
+              <h3 class="module-title">Скрипти продажів у листуванні <span class="module-new-badge">Новий</span></h3>
+              <div class="module-topics">
+                <span class="module-topic">Від першого повідомлення до оплати</span>
+                <span class="module-topic">Топ заперечень з відповідями</span>
+                <span class="module-topic">Фолоу-ап коли клієнт мовчить</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card new-module">
+          <div class="module-header">
+            <span class="module-number">13</span>
+            <div class="module-content">
+              <h3 class="module-title">Повний кейс від нуля до результату <span class="module-new-badge">Новий</span></h3>
+              <div class="module-topics">
+                <span class="module-topic">3 детальних кейси з цифрами — косметика, репетитор, стиліст</span>
+                <span class="module-topic">Кроки, помилки і реальні результати</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card new-module">
+          <div class="module-header">
+            <span class="module-number">14</span>
+            <div class="module-content">
+              <h3 class="module-title">Кризові сценарії <span class="module-new-badge">Новий</span></h3>
+              <div class="module-topics">
+                <span class="module-topic">Негативний відгук публічно</span>
+                <span class="module-topic">Падіння охоплень після алгоритму</span>
+                <span class="module-topic">Незадоволений клієнт, вірусне відео «не для тих»</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card new-module">
+          <div class="module-header">
+            <span class="module-number">15</span>
+            <div class="module-content">
+              <h3 class="module-title">Ціноутворення і упаковка офферу <span class="module-new-badge">Новий</span></h3>
+              <div class="module-topics">
+                <span class="module-topic">3 методи встановлення ціни</span>
+                <span class="module-topic">Дорого vs доступно — що обрати</span>
+                <span class="module-topic">Формула офферу який продає сам себе</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card new-module">
+          <div class="module-header">
+            <span class="module-number">16</span>
+            <div class="module-content">
+              <h3 class="module-title">Аналітика: діагностика воронки <span class="module-new-badge">Новий</span></h3>
+              <div class="module-topics">
+                <span class="module-topic">Таблиця показників по кожному етапу з нормами</span>
+                <span class="module-topic">Щомісячний огляд за 30 хвилин</span>
+                <span class="module-topic">Де зараз зламана твоя воронка</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Buy -->
+  <section class="section">
+    <div class="container">
+      <div class="buy-box">
+        <h2 class="buy-box-title">Придбати курс</h2>
+        <p class="buy-box-desc">Миттєвий доступ до всіх матеріалів після оплати</p>
+        <div class="buy-box-price">599 <span>грн</span></div>
+        <a href="#" class="buy-box-btn">Купити зараз</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-copy">© 2025 Яковенко Руслан. Усі права захищені.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

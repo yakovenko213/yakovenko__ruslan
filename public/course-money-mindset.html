@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Психологія грошей. Мислення багатих — Яковенко Руслан</title>
+  <meta name="description" content="Чому розумні люди залишаються бідними і як змінити фінансове мислення на рівні переконань.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --background: #f7f5f2;
+      --foreground: #2d2a26;
+      --card: #fdfcfb;
+      --card-foreground: #2d2a26;
+      --primary: #3d3833;
+      --primary-foreground: #f7f5f2;
+      --secondary: #eeebe6;
+      --secondary-foreground: #3d3833;
+      --muted: #e8e4de;
+      --muted-foreground: #6b6560;
+      --accent: #8b5a3c;
+      --accent-foreground: #faf9f8;
+      --border: #ddd8d1;
+      --radius: 0.75rem;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: var(--background);
+      color: var(--foreground);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      width: 100%;
+      border-bottom: 1px solid rgba(221, 216, 209, 0.4);
+      background-color: rgba(247, 245, 242, 0.95);
+      backdrop-filter: blur(8px);
+    }
+
+    .header-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      height: 64px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--foreground);
+      text-decoration: none;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border-radius: var(--radius);
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--foreground);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--secondary);
+    }
+
+    .btn-sm {
+      padding: 8px 16px;
+      font-size: 0.875rem;
+    }
+
+    .course-hero {
+      padding: 56px 0 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .course-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background-color: var(--secondary);
+      color: var(--muted-foreground);
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 20px;
+    }
+
+    .course-hero-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 2rem;
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--foreground);
+    }
+
+    .course-hero-desc {
+      margin-top: 16px;
+      font-size: 1.0625rem;
+      color: var(--muted-foreground);
+      max-width: 600px;
+    }
+
+    .section {
+      padding: 56px 0;
+    }
+
+    .section-alt {
+      background-color: rgba(238, 235, 230, 0.5);
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 32px;
+    }
+
+    .modules-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .part-divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 8px 0 4px;
+    }
+
+    .part-divider-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+
+    .part-divider-line {
+      flex: 1;
+      height: 1px;
+      background-color: var(--border);
+    }
+
+    .module-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background-color: var(--card);
+      overflow: hidden;
+    }
+
+    .module-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 24px;
+    }
+
+    .module-number {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--muted);
+      line-height: 1;
+      flex-shrink: 0;
+      min-width: 36px;
+    }
+
+    .module-content {
+      flex: 1;
+    }
+
+    .module-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.0625rem;
+      font-weight: 600;
+      color: var(--foreground);
+      line-height: 1.3;
+    }
+
+    .module-subtitle {
+      margin-top: 2px;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--accent);
+    }
+
+    .module-topics {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .module-topic {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+    }
+
+    .module-topic::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: var(--border);
+      flex-shrink: 0;
+      margin-top: 7px;
+    }
+
+    .outcomes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .outcome-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px 20px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background-color: var(--card);
+    }
+
+    .outcome-check {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background-color: var(--primary);
+      margin-top: 1px;
+    }
+
+    .outcome-check svg {
+      width: 11px;
+      height: 11px;
+      color: var(--primary-foreground);
+    }
+
+    .outcome-text {
+      font-size: 0.9375rem;
+      color: var(--foreground);
+      line-height: 1.5;
+    }
+
+    .audience-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .audience-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background-color: var(--card);
+      font-size: 0.9375rem;
+      color: var(--foreground);
+    }
+
+    .audience-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* Mindset comparison */
+    .mindset-grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .mindset-panel {
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .mindset-panel-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .mindset-panel-header.bad {
+      background-color: #fef2f2;
+      color: #991b1b;
+      border-bottom: 1px solid #fecaca;
+    }
+
+    .mindset-panel-header.good {
+      background-color: #f0fdf4;
+      color: #166534;
+      border-bottom: 1px solid #bbf7d0;
+    }
+
+    .mindset-body {
+      background-color: var(--card);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .mindset-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.875rem;
+      color: var(--foreground);
+      line-height: 1.5;
+    }
+
+    .mindset-icon {
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .mindset-result {
+      margin-top: 4px;
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .mindset-result.fail {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+
+    .mindset-result.success {
+      background-color: #dcfce7;
+      color: #166534;
+    }
+
+    .buy-box {
+      background-color: var(--primary);
+      border-radius: 16px;
+      padding: 40px 32px;
+      text-align: center;
+    }
+
+    .buy-box-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary-foreground);
+    }
+
+    .buy-box-desc {
+      margin-top: 8px;
+      font-size: 0.9375rem;
+      color: rgba(247, 245, 242, 0.7);
+    }
+
+    .buy-box-price {
+      margin-top: 24px;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-foreground);
+      line-height: 1;
+    }
+
+    .buy-box-price span {
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: rgba(247, 245, 242, 0.7);
+    }
+
+    @keyframes btn-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(247, 245, 242, 0.5); }
+      50%       { box-shadow: 0 0 0 8px rgba(247, 245, 242, 0); }
+    }
+
+    .buy-box-btn {
+      margin-top: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 36px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: var(--radius);
+      background-color: var(--primary-foreground);
+      color: var(--primary);
+      text-decoration: none;
+      transition: opacity 0.2s;
+      animation: btn-pulse 2.4s ease-in-out infinite;
+    }
+
+    .buy-box-btn:hover {
+      opacity: 0.9;
+      animation: none;
+    }
+
+    .footer {
+      border-top: 1px solid var(--border);
+      background-color: var(--card);
+      padding: 32px 0;
+      text-align: center;
+    }
+
+    .footer-copy {
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+    }
+
+    @media (min-width: 640px) {
+      .course-hero-title {
+        font-size: 2.5rem;
+      }
+
+      .audience-list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .mindset-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 768px) {
+      .module-header {
+        padding: 24px 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">Яковенко Руслан</a>
+      <a href="index.html" class="btn btn-outline btn-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+        На головну
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="course-hero">
+    <div class="container">
+      <h1 class="course-hero-title">Гроші починаються в голові: змініть мислення — зміниться дохід</h1>
+      <p class="course-hero-desc">Чому зусилля і знання не вирішують — вирішують переконання. Практичний курс про те, як виявити фінансові блоки і замінити їх на моделі, що дають результат.</p>
+    </div>
+  </section>
+
+  <!-- Audience -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Для кого цей курс</h2>
+      <div class="audience-list">
+        <div class="audience-item">
+          <span class="audience-dot"></span>
+          Підприємцям і фрілансерам, які роблять якісний продукт але бояться підняти ціну або масштабуватись
+        </div>
+        <div class="audience-item">
+          <span class="audience-dot"></span>
+          Найманим працівникам, які відчувають що їхній дохід «заморожений» і не знають як це змінити
+        </div>
+        <div class="audience-item">
+          <span class="audience-dot"></span>
+          Тим, хто виріс в сім'ї з обмеженим мисленням про гроші і несе ці програми в дорослому житті
+        </div>
+        <div class="audience-item">
+          <span class="audience-dot"></span>
+          Людям, які вже заробляють непогано — але відчувають внутрішній бар'єр перед наступним рівнем
+        </div>
+        <div class="audience-item">
+          <span class="audience-dot"></span>
+          Всім, хто помічає що починає саботувати свій власний успіх — витрачає, відмовляється, применшує
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Outcomes -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Що ви отримаєте після курсу</h2>
+      <div class="outcomes-list">
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Зрозумієте звідки беруться ваші фінансові обмеження — і перестанете вважати їх частиною характеру</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Навчитесь розпізнавати підсвідомий саботаж і зупиняти його до того, як він коштуватиме вам грошей</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Перестанете боятися великих сум і зможете приймати великі замовлення і пропозиції без паніки</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Зміните ідентичність: з «людини, яка не заробляє багато» на людину, для якої великий дохід є нормою</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Позбудетесь вини за успіх і зможете відкрито говорити про свої ціни, результати і досягнення</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Отримаєте конкретну систему розподілу грошей і зрозумієте різницю між витратами, активами і пасивами</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Матимете місячний план конкретних дій — не роздумів, а змін у поведінці та рішеннях</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Навчитесь правильно мріяти про великі цілі так, щоб мозок рухався до них, а не розслаблявся</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mindset comparison -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Як змінюється мислення після курсу</h2>
+      <div class="mindset-grid">
+
+        <div class="mindset-panel">
+          <div class="mindset-panel-header bad">
+            <span>❌</span>
+            Мислення до курсу
+          </div>
+          <div class="mindset-body">
+            <div class="mindset-row">
+              <span class="mindset-icon">💭</span>
+              «Просити більше — це жадібність, клієнти підуть»
+            </div>
+            <div class="mindset-row">
+              <span class="mindset-icon">💭</span>
+              «Великі гроші — це не для мене, я з простої сім'ї»
+            </div>
+            <div class="mindset-row">
+              <span class="mindset-icon">💭</span>
+              «Треба більше старатись — і тоді прийдуть гроші»
+            </div>
+            <div class="mindset-row">
+              <span class="mindset-icon">💭</span>
+              «Якщо я заробляю більше за батьків — це якось незручно»
+            </div>
+            <div class="mindset-result fail">Дохід стоїть на місці. Внутрішній бар'єр не дає зрости.</div>
+          </div>
+        </div>
+
+        <div class="mindset-panel">
+          <div class="mindset-panel-header good">
+            <span>✅</span>
+            Мислення після курсу
+          </div>
+          <div class="mindset-body">
+            <div class="mindset-row">
+              <span class="mindset-icon">💡</span>
+              «Моя ціна — це відображення цінності, яку я даю клієнту»
+            </div>
+            <div class="mindset-row">
+              <span class="mindset-icon">💡</span>
+              «Великий дохід — це норма, якщо я даю великий результат»
+            </div>
+            <div class="mindset-row">
+              <span class="mindset-icon">💡</span>
+              «Гроші приходять через правильне мислення і дію, а не через зусилля»
+            </div>
+            <div class="mindset-row">
+              <span class="mindset-icon">💡</span>
+              «Мій успіх не забирає нічого у близьких — навпаки, надихає»
+            </div>
+            <div class="mindset-result success">Внутрішні блоки зняті. Дохід починає зростати. ✅</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Modules -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Програма курсу</h2>
+      <div class="modules-list">
+
+        <div class="part-divider">
+          <span class="part-divider-label">Частина 1 — Основи фінансового мислення</span>
+          <span class="part-divider-line"></span>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">В</span>
+            <div class="module-content">
+              <h3 class="module-title">Вступ: чому розумні люди залишаються бідними</h3>
+              <p class="module-subtitle">Різниця між знаннями і мисленням</p>
+              <div class="module-topics">
+                <span class="module-topic">Чому зусилля не вирішують — вирішують переконання</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">01</span>
+            <div class="module-content">
+              <h3 class="module-title">Звідки береться твоє ставлення до грошей</h3>
+              <p class="module-subtitle">Корені і програми</p>
+              <div class="module-topics">
+                <span class="module-topic">Програми з дитинства і як вони записуються в мозок</span>
+                <span class="module-topic">Що таке «фінансовий термостат» і як він тебе обмежує</span>
+                <span class="module-topic">Як визначити свій внутрішній рівень доходу</span>
+                <span class="module-topic">Практика: три фрази з дитинства і їх вплив сьогодні</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">02</span>
+            <div class="module-content">
+              <h3 class="module-title">Мислення бідного vs мислення багатого</h3>
+              <p class="module-subtitle">Конкретні моделі і як їх змінити</p>
+              <div class="module-topics">
+                <span class="module-topic">5 патернів бідного мислення з поясненням чому вони шкодять</span>
+                <span class="module-topic">5 патернів багатого мислення з прикладами</span>
+                <span class="module-topic">Три зміни мислення, які змінюють все: цінність, інвестиції, повага</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">03</span>
+            <div class="module-content">
+              <h3 class="module-title">Як гроші працюють у бізнесі</h3>
+              <p class="module-subtitle">Логіка, а не бухгалтерія</p>
+              <div class="module-topics">
+                <span class="module-topic">Дохід — це не прибуток: найпоширеніша помилка підприємця</span>
+                <span class="module-topic">Система розподілу грошей (операційні / резерв / зростання / особисті)</span>
+                <span class="module-topic">Актив vs пасив — найважливіше розмежування</span>
+                <span class="module-topic">Ціна як відображення самооцінки. Практика: чому ти поставив саме цю ціну</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">04</span>
+            <div class="module-content">
+              <h3 class="module-title">Чого не варто робити, якщо хочеш великих грошей</h3>
+              <p class="module-subtitle">7 помилок, що обнуляють прогрес</p>
+              <div class="module-topics">
+                <span class="module-topic">Жити без фінансового обліку</span>
+                <span class="module-topic">Витрачати більше, коли більше заробляєш (інфляція способу життя)</span>
+                <span class="module-topic">Порівнювати себе з іншими і брати кредити заради статусу</span>
+                <span class="module-topic">Чекати ідеального моменту і боятися просити гроші</span>
+                <span class="module-topic">Практика: аудит витрат за останній місяць</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">05</span>
+            <div class="module-content">
+              <h3 class="module-title">Що Біблія і філософи говорять про гроші</h3>
+              <p class="module-subtitle">Тисячоліття мудрості</p>
+              <div class="module-topics">
+                <span class="module-topic">Біблія: гроші — не зло, а нейтральний інструмент</span>
+                <span class="module-topic">Притча про таланти: бездія теж має ціну</span>
+                <span class="module-topic">Епікур, Бекон, Тетчер, Сенека — що говорили великі мислителі</span>
+                <span class="module-topic">Духовність і фінансовий успіх — не протилежності</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">06</span>
+            <div class="module-content">
+              <h3 class="module-title">Нові правила твого фінансового мислення</h3>
+              <p class="module-subtitle">7 правил для заміни старих програм</p>
+              <div class="module-topics">
+                <span class="module-topic">Я заробляю рівно стільки, скільки я дозволяю собі заробляти</span>
+                <span class="module-topic">Гроші — це енергія обміну, а не мета</span>
+                <span class="module-topic">Те, на що я звертаю увагу — росте</span>
+                <span class="module-topic">Я плачу собі першим. Я не ховаю успіх</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">07</span>
+            <div class="module-content">
+              <h3 class="module-title">Практичний план зміни фінансового мислення</h3>
+              <p class="module-subtitle">4 тижні конкретних дій</p>
+              <div class="module-topics">
+                <span class="module-topic">Тиждень 1 — Усвідомлення: щоденник, старі переконання</span>
+                <span class="module-topic">Тиждень 2 — Перебудова: ціль, система розподілу, інвестиція в себе</span>
+                <span class="module-topic">Тиждень 3 — Дія: підняти ціну, вийти ширше, перетворити пасив</span>
+                <span class="module-topic">Тиждень 4 — Закріплення: аналіз, книга, розмова з тим, хто вже там</span>
+                <span class="module-topic">Рекомендована бібліотека: 5 книг з поясненням навіщо кожна</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="part-divider">
+          <span class="part-divider-label">Частина 2 — Глибока робота ★</span>
+          <span class="part-divider-line"></span>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">A</span>
+            <div class="module-content">
+              <h3 class="module-title">Синдром самозванця і страх «бути розкритим»</h3>
+              <p class="module-subtitle">Чому 70% успішних людей відчувають себе самозванцями</p>
+              <div class="module-topics">
+                <span class="module-topic">Як синдром проявляється саме в цінах і доході</span>
+                <span class="module-topic">Звідки береться і чому розумні страждають більше</span>
+                <span class="module-topic">Три кроки: список доказів, точні формулювання, дія до впевненості</span>
+                <span class="module-topic">Практика: лист самозванцю</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">B</span>
+            <div class="module-content">
+              <h3 class="module-title">Страх великих грошей</h3>
+              <p class="module-subtitle">Чому підсвідомість їх відштовхує</p>
+              <div class="module-topics">
+                <span class="module-topic">5 причин страху: зміна себе, втрата близьких, відповідальність, заздрість, «не заслуговую»</span>
+                <span class="module-topic">Як виглядає підсвідомий саботаж на практиці</span>
+                <span class="module-topic">Три практики для зняття блоку</span>
+                <span class="module-topic">Практика: лист до себе-багатого через 3 роки</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">C</span>
+            <div class="module-content">
+              <h3 class="module-title">Гроші і стосунки</h3>
+              <p class="module-subtitle">Як оточення тримає твій дохід</p>
+              <div class="module-topics">
+                <span class="module-topic">Як близькі гальмують фінансове зростання без злого умислу</span>
+                <span class="module-topic">Три токсичні фрази: «не висовуйся», «нащо тобі стільки», «ти став іншим»</span>
+                <span class="module-topic">Три варіанти дій: розмова, нове коло, чесне дистанціювання</span>
+                <span class="module-topic">Практика: фінансовий аудит оточення</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">D</span>
+            <div class="module-content">
+              <h3 class="module-title">Вина за успіх</h3>
+              <p class="module-subtitle">Коли зростати — означає зрадити</p>
+              <div class="module-topics">
+                <span class="module-topic">Що таке вина за успіх і як вона проявляється в поведінці</span>
+                <span class="module-topic">Синдром першого покоління: перший підприємець у сім'ї</span>
+                <span class="module-topic">Чотири питання, що знімають провину</span>
+                <span class="module-topic">Практика: лист дозволу на успіх</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">E</span>
+            <div class="module-content">
+              <h3 class="module-title">Ідентичність і гроші</h3>
+              <p class="module-subtitle">«Я не та людина, яка заробляє багато»</p>
+              <div class="module-topics">
+                <span class="module-topic">Три рівні змін: результати, процеси, ідентичність</span>
+                <span class="module-topic">4 обмежувальні ідентичності: творча людина, людина допомоги, з простої сім'ї, важливіший внесок</span>
+                <span class="module-topic">Три кроки переписування ідентичності</span>
+                <span class="module-topic">Практика: дві колонки «хто я є» і «ким стаю»</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">F</span>
+            <div class="module-content">
+              <h3 class="module-title">Як правильно мріяти про великі гроші</h3>
+              <p class="module-subtitle">Нейронаука, а не магія</p>
+              <div class="module-topics">
+                <span class="module-topic">Чому чиста візуалізація не працює і навіть шкодить</span>
+                <span class="module-topic">WOOP-метод: Бажання, Результат, Перешкода, План</span>
+                <span class="module-topic">Як деталізація образу майбутнього змінює рішення сьогодні</span>
+                <span class="module-topic">Небезпека натхнення без системи</span>
+                <span class="module-topic">Практика: ідеальний день через два роки</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Buy -->
+  <section class="section">
+    <div class="container">
+      <div class="buy-box">
+        <h2 class="buy-box-title">Придбати курс</h2>
+        <p class="buy-box-desc">Миттєвий доступ до всіх матеріалів після оплати</p>
+        <div class="buy-box-price">1200 <span>грн</span></div>
+        <a href="#" class="buy-box-btn">Купити зараз</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-copy">© 2025 Яковенко Руслан. Усі права захищені.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

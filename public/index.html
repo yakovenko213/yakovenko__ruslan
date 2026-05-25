@@ -559,6 +559,108 @@
       color: var(--foreground);
     }
 
+    /* Author section */
+    .author-section {
+      padding: 56px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .author-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      align-items: flex-start;
+    }
+
+    .author-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background-color: var(--secondary);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--muted-foreground);
+    }
+
+    .author-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-top: 4px;
+    }
+
+    .author-role {
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+
+    .author-text {
+      font-size: 0.9375rem;
+      color: var(--muted-foreground);
+      line-height: 1.75;
+      max-width: 620px;
+    }
+
+    .author-text p + p {
+      margin-top: 12px;
+    }
+
+    .author-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 4px;
+    }
+
+    .author-stat {
+      padding: 14px 20px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background-color: var(--card);
+    }
+
+    .author-stat-value {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.375rem;
+      font-weight: 700;
+      color: var(--foreground);
+      line-height: 1;
+    }
+
+    .author-stat-label {
+      margin-top: 4px;
+      font-size: 0.8125rem;
+      color: var(--muted-foreground);
+    }
+
+    .author-quote {
+      border-left: 3px solid var(--accent);
+      padding-left: 18px;
+      font-size: 0.9375rem;
+      font-style: italic;
+      color: var(--foreground);
+      line-height: 1.65;
+    }
+
+    @media (min-width: 768px) {
+      .author-inner {
+        flex-direction: row;
+        gap: 48px;
+        align-items: flex-start;
+      }
+
+      .author-content {
+        flex: 1;
+      }
+    }
+
     /* Responsive */
     .course-card-featured {
       border-color: var(--accent);
@@ -930,46 +1032,43 @@
           </div>
         </div>
         <div class="course-card">
-          <h3 class="course-title">Робота з теплою базою клієнтів. Поради та червоні прапорці</h3>
-          <p class="course-desc">Як працювати з постійними клієнтами, не втрачати довіру та збільшувати повторні продажі.</p>
+          <h3 class="course-title">Тепла база клієнтів: як системно продавати, повертати і утримувати</h3>
+          <p class="course-desc">Пуші без спаму, реактивація сплячих, червоні прапорці відходу і лояльність без знижок — все в одному курсі.</p>
           <div class="course-footer">
             <span class="course-price">580 <span>грн</span></span>
-            <a href="#" class="btn btn-primary btn-sm">Відкрити курс <span class="btn-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+            <a href="course-warm-base.html" class="btn btn-primary btn-sm">Відкрити курс <span class="btn-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
           </div>
         </div>
         <div class="course-card">
-          <h3 class="course-title">Психологія грошей. Мислення багатих</h3>
-          <p class="course-desc">Про фінансове мислення, звички та психологію ставлення до грошей.</p>
+          <h3 class="course-title">Гроші починаються в голові: змініть мислення — зміниться дохід</h3>
+          <p class="course-desc">Чому зусилля не вирішують — вирішують переконання. Блоки, саботаж і практичний план на 4 тижні.</p>
           <div class="course-footer">
             <span class="course-price">1200 <span>грн</span></span>
-            <a href="#" class="btn btn-primary btn-sm">Відкрити курс <span class="btn-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+            <a href="course-money-mindset.html" class="btn btn-primary btn-sm">Відкрити курс <span class="btn-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
           </div>
         </div>
         <div class="course-card">
-          <h3 class="course-title">Початковий підприємець. Базові знання які має знати кожен</h3>
-          <p class="course-desc">База для тих, хто запускає власну справу або лише планує старт.</p>
+          <h3 class="course-title">Від нуля до системи: все що має знати підприємець-початківець</h3>
+          <p class="course-desc">19 розділів: фінансові формули, юридична база, перші клієнти і 10 помилок які коштують грошей.</p>
           <div class="course-footer">
             <span class="course-price">1000 <span>грн</span></span>
-            <a href="#" class="btn btn-primary btn-sm">Відкрити курс <span class="btn-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+            <a href="course-entrepreneur.html" class="btn btn-primary btn-sm">Відкрити курс <span class="btn-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
           </div>
         </div>
         <div class="course-card">
-          <h3 class="course-title">Допродажі в переписці. Допродажі на сайті</h3>
-          <p class="course-desc">Практичні методи збільшення середнього чеку через переписку та сайт.</p>
+          <h3 class="course-title">Допродажі: збільште середній чек без нових клієнтів</h3>
+          <p class="course-desc">Скрипти, механіки і психологія допродажу в переписці та на сайті. +15–40% до чеку без витрат на рекламу.</p>
           <div class="course-footer">
             <span class="course-price">700 <span>грн</span></span>
-            <a href="#" class="btn btn-primary btn-sm">Відкрити курс <span class="btn-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+            <a href="course-upsell.html" class="btn btn-primary btn-sm">Відкрити курс <span class="btn-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
           </div>
         </div>
-        <div class="course-card course-card-featured">
-          <h3 class="course-title">Повний пакет курсів. Усі 5 курсів в одному</h3>
-          <p class="course-desc">Отримайте доступ до всіх курсів одразу — від скриптів продажів до психології грошей. Максимум знань за мінімальну ціну.</p>
+        <div class="course-card">
+          <h3 class="course-title">Воронка продажів: TikTok → Instagram → Telegram → Сайт</h3>
+          <p class="course-desc">Як перетворити контент на стабільні продажі. Система, кейси, автоворонка і скрипти — 16 модулів.</p>
           <div class="course-footer">
-            <div>
-              <span class="course-price-old">3 969 грн</span>
-              <span class="course-price-new">2 969 <span>грн</span></span>
-            </div>
-            <a href="#" class="btn btn-primary btn-sm">Відкрити курс <span class="btn-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+            <span class="course-price">599 <span>грн</span></span>
+            <a href="course-sales-funnel.html" class="btn btn-primary btn-sm">Відкрити курс <span class="btn-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
           </div>
         </div>
       </div>
@@ -977,7 +1076,7 @@
   </section>
 
   <!-- Comparison Section -->
-  <section id="comparison" class="section">
+  <section id="comparison" class="section" style="display:none">
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">Як змінюється переписка після курсу</h2>
@@ -1228,11 +1327,17 @@
           <p class="footer-subtitle">Практичні знання для вашого успіху</p>
         </div>
         <div class="social-links">
-          <a href="https://t.me/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Telegram">
+          <a href="https://t.me/yakovenko_biz" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Telegram">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
           </a>
-          <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+          <a href="https://www.instagram.com/yakovenko__ruslan?igsh=MTlpaTdtZ3I0ajh0NQ==" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+          </a>
+          <a href="https://youtube.com/@yakovenko__ruslan?si=XAc0GJjwpTg1TCKW" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="YouTube">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@yakovenko__ruslan?_r=1&_t=ZS-96eVlpmn5yJ" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="TikTok">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
           </a>
         </div>
       </div>

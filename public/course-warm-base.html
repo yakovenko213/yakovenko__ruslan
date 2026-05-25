@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Робота з теплою базою клієнтів. LTV. Поради та червоні прапорці — Яковенко Руслан</title>
+  <meta name="description" content="Як пушити правильно, коли повертатись до відмовників і чому 80% грошей вже є у вашій базі.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --background: #f7f5f2;
+      --foreground: #2d2a26;
+      --card: #fdfcfb;
+      --card-foreground: #2d2a26;
+      --primary: #3d3833;
+      --primary-foreground: #f7f5f2;
+      --secondary: #eeebe6;
+      --secondary-foreground: #3d3833;
+      --muted: #e8e4de;
+      --muted-foreground: #6b6560;
+      --accent: #8b5a3c;
+      --accent-foreground: #faf9f8;
+      --border: #ddd8d1;
+      --radius: 0.75rem;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: var(--background);
+      color: var(--foreground);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    /* Header */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      width: 100%;
+      border-bottom: 1px solid rgba(221, 216, 209, 0.4);
+      background-color: rgba(247, 245, 242, 0.95);
+      backdrop-filter: blur(8px);
+    }
+
+    .header-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      height: 64px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--foreground);
+      text-decoration: none;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border-radius: var(--radius);
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+    }
+
+    .btn-primary:hover {
+      background-color: #4a443e;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--foreground);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--secondary);
+    }
+
+    .btn-lg {
+      padding: 14px 28px;
+      font-size: 1rem;
+    }
+
+    .btn-sm {
+      padding: 8px 16px;
+      font-size: 0.875rem;
+    }
+
+    /* Hero */
+    .course-hero {
+      padding: 56px 0 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .course-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background-color: var(--secondary);
+      color: var(--muted-foreground);
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 20px;
+    }
+
+    .course-hero-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 2rem;
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--foreground);
+    }
+
+    .course-hero-desc {
+      margin-top: 16px;
+      font-size: 1.0625rem;
+      color: var(--muted-foreground);
+      max-width: 600px;
+    }
+
+    /* Stats bar */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 36px;
+    }
+
+    .stat-item {
+      padding: 16px 20px;
+      background-color: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .stat-value {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--foreground);
+      line-height: 1;
+    }
+
+    .stat-label {
+      margin-top: 4px;
+      font-size: 0.8125rem;
+      color: var(--muted-foreground);
+    }
+
+    /* Modules */
+    .section {
+      padding: 56px 0;
+    }
+
+    .section-alt {
+      background-color: rgba(238, 235, 230, 0.5);
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 32px;
+    }
+
+    .modules-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .part-divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 8px 0 4px;
+    }
+
+    .part-divider-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+
+    .part-divider-line {
+      flex: 1;
+      height: 1px;
+      background-color: var(--border);
+    }
+
+    .module-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background-color: var(--card);
+      overflow: hidden;
+    }
+
+    .module-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 24px;
+    }
+
+    .module-number {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--muted);
+      line-height: 1;
+      flex-shrink: 0;
+      min-width: 36px;
+    }
+
+    .module-content {
+      flex: 1;
+    }
+
+    .module-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.0625rem;
+      font-weight: 600;
+      color: var(--foreground);
+      line-height: 1.3;
+    }
+
+    .module-subtitle {
+      margin-top: 2px;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--accent);
+    }
+
+    .module-topics {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .module-topic {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+    }
+
+    .module-topic::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: var(--border);
+      flex-shrink: 0;
+      margin-top: 7px;
+    }
+
+    /* Outcomes */
+    .outcomes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .outcome-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px 20px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background-color: var(--card);
+    }
+
+    .outcome-check {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background-color: var(--primary);
+      margin-top: 1px;
+    }
+
+    .outcome-check svg {
+      width: 11px;
+      height: 11px;
+      color: var(--primary-foreground);
+    }
+
+    .outcome-text {
+      font-size: 0.9375rem;
+      color: var(--foreground);
+      line-height: 1.5;
+    }
+
+    /* Audience */
+    .audience-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .audience-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background-color: var(--card);
+      font-size: 0.9375rem;
+      color: var(--foreground);
+    }
+
+    .audience-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* Buy box */
+    .buy-box {
+      background-color: var(--primary);
+      border-radius: 16px;
+      padding: 40px 32px;
+      text-align: center;
+    }
+
+    .buy-box-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary-foreground);
+    }
+
+    .buy-box-desc {
+      margin-top: 8px;
+      font-size: 0.9375rem;
+      color: rgba(247, 245, 242, 0.7);
+    }
+
+    .buy-box-price {
+      margin-top: 24px;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-foreground);
+      line-height: 1;
+    }
+
+    .buy-box-price span {
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: rgba(247, 245, 242, 0.7);
+    }
+
+    @keyframes btn-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(247, 245, 242, 0.5); }
+      50%       { box-shadow: 0 0 0 8px rgba(247, 245, 242, 0); }
+    }
+
+    .buy-box-btn {
+      margin-top: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 36px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: var(--radius);
+      background-color: var(--primary-foreground);
+      color: var(--primary);
+      text-decoration: none;
+      transition: opacity 0.2s;
+      animation: btn-pulse 2.4s ease-in-out infinite;
+    }
+
+    .buy-box-btn:hover {
+      opacity: 0.9;
+      animation: none;
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border);
+      background-color: var(--card);
+      padding: 32px 0;
+      text-align: center;
+    }
+
+    .footer-copy {
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+    }
+
+    /* Chat demo */
+    .chat-demo-grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .chat-panel {
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .chat-panel-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .chat-panel-header.bad {
+      background-color: #fef2f2;
+      color: #991b1b;
+      border-bottom: 1px solid #fecaca;
+    }
+
+    .chat-panel-header.good {
+      background-color: #f0fdf4;
+      color: #166534;
+      border-bottom: 1px solid #bbf7d0;
+    }
+
+    .chat-panel-header .chat-label-icon {
+      font-size: 1rem;
+    }
+
+    .chat-body {
+      background-color: #f0ece7;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 200px;
+    }
+
+    .chat-row {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .chat-row.manager {
+      align-items: flex-start;
+    }
+
+    .chat-row.client {
+      align-items: flex-end;
+    }
+
+    .chat-sender {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--muted-foreground);
+      padding: 0 4px;
+      margin-bottom: 2px;
+    }
+
+    .chat-bubble {
+      max-width: 85%;
+      padding: 10px 14px;
+      border-radius: 16px;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      position: relative;
+    }
+
+    .chat-row.manager .chat-bubble {
+      background-color: var(--card);
+      color: var(--foreground);
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    }
+
+    .chat-row.client .chat-bubble {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+      border-bottom-right-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .chat-result {
+      margin-top: 4px;
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .chat-result.fail {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+
+    .chat-result.success {
+      background-color: #dcfce7;
+      color: #166534;
+    }
+
+    @media (min-width: 640px) {
+      .course-hero-title {
+        font-size: 2.5rem;
+      }
+
+      .audience-list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .chat-demo-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stats-bar {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (min-width: 768px) {
+      .module-header {
+        padding: 24px 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">Яковенко Руслан</a>
+      <a href="index.html" class="btn btn-outline btn-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+        На головну
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="course-hero">
+    <div class="container">
+      <h1 class="course-hero-title">Тепла база клієнтів: як системно продавати, повертати і утримувати</h1>
+      <p class="course-hero-desc">13 модулів про системну роботу з теплою базою: пуші без спаму, реактивація сплячих, червоні прапорці відходу і лояльність без знижок.</p>
+    </div>
+  </section>
+
+  <!-- Audience -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Для кого цей курс</h2>
+      <div class="audience-list">
+        <div class="audience-item">
+          <span class="audience-dot"></span>
+          Менеджерам з продажів і власникам бізнесу, які мають базу клієнтів але не знають як з нею системно працювати
+        </div>
+        <div class="audience-item">
+          <span class="audience-dot"></span>
+          Тим, хто витрачає весь бюджет на залучення нових клієнтів і не монетизує тих, хто вже купував
+        </div>
+        <div class="audience-item">
+          <span class="audience-dot"></span>
+          Підприємцям у сфері товарів, послуг або інфопродуктів — де є повторні покупки або постійні клієнти
+        </div>
+        <div class="audience-item">
+          <span class="audience-dot"></span>
+          Всім, хто втрачає клієнтів і не розуміє чому — і хоче навчитись бачити сигнали відходу завчасно
+        </div>
+        <div class="audience-item">
+          <span class="audience-dot"></span>
+          Тим, хто хоче будувати лояльність без постійних знижок і навчитись повертати клієнтів після мовчання і конфліктів
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Outcomes -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Що ви отримаєте після курсу</h2>
+      <div class="outcomes-list">
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Навчитесь писати пуші які клієнти хочуть читати — а не ті, від яких відписуються</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Матимете готові скрипти і шаблони на кожну ситуацію: від першого фолоу-апу до реактивації через рік</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Навчитесь бачити червоні прапорці — і зупиняти відтік клієнтів до того як вони пішли</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Зрозумієте як повертати відмовників через 1 тиждень, 1 місяць, 3 місяці і 1 рік — без нагадування про відмову</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Збудуєте просту систему сегментації бази — навіть без CRM, у звичайній Google Таблиці</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Навчитесь перетворювати незадоволеного клієнта на лояльного після скарги — і робити це системно</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Збудуєте програму лояльності без знижок: пріоритет, ексклюзив, сюрпризи, рівні</span>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-check">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="outcome-text">Навчитесь вимірювати здоров'я бази: Retention Rate, Churn Rate, NPS — і розуміти що з цим робити</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Push demo — поганий і гарний пуш -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Як змінюються ваші пуші після курсу</h2>
+      <div class="chat-demo-grid">
+
+        <!-- BAD -->
+        <div class="chat-panel">
+          <div class="chat-panel-header bad">
+            <span class="chat-label-icon">❌</span>
+            До — пуш що дратує
+          </div>
+          <div class="chat-body">
+            <div class="chat-row manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble">Привіт! Нагадую що ви давно нічого не купували у нас. У нас багато нових товарів. Заходьте на сайт і дивіться що є. Може щось сподобається. Чекаємо на вас!</div>
+            </div>
+            <div class="chat-row client">
+              <span class="chat-sender">Клієнт</span>
+              <div class="chat-bubble">👀</div>
+            </div>
+            <div class="chat-row manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble">Ви бачили наше повідомлення? Просто хочу переконатися що дійшло. Є ще знижки до кінця тижня!</div>
+            </div>
+            <div class="chat-result fail">Клієнт відписався. База скорочується.</div>
+          </div>
+        </div>
+
+        <!-- GOOD -->
+        <div class="chat-panel">
+          <div class="chat-panel-header good">
+            <span class="chat-label-icon">✅</span>
+            Після — пуш що продає
+          </div>
+          <div class="chat-body">
+            <div class="chat-row manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble">Олено, привіт 👋 Ви брали у нас [товар] у березні — зазвичай його поповнюють через 2–3 місяці. Якщо якраз час — до п'ятниці є пріоритетна відправка без черги. Актуально?</div>
+            </div>
+            <div class="chat-row client">
+              <span class="chat-sender">Клієнт</span>
+              <div class="chat-bubble">О, так, якраз думала про це!</div>
+            </div>
+            <div class="chat-row manager">
+              <span class="chat-sender">Менеджер</span>
+              <div class="chat-bubble">Чудово 🙂 Оформляю на ту ж адресу чи змінилась?</div>
+            </div>
+            <div class="chat-row client">
+              <span class="chat-sender">Клієнт</span>
+              <div class="chat-bubble">Та сама, оформлюйте</div>
+            </div>
+            <div class="chat-result success">Повторний продаж. LTV зростає. ✅</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Modules -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Програма курсу</h2>
+      <div class="modules-list">
+
+        <div class="part-divider">
+          <span class="part-divider-label">Частина 1 — Основи роботи з базою</span>
+          <span class="part-divider-line"></span>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">01</span>
+            <div class="module-content">
+              <h3 class="module-title">LTV: чому база — це ваш актив №1</h3>
+              <p class="module-subtitle">Формула і логіка повторних продажів</p>
+              <div class="module-topics">
+                <span class="module-topic">Формула LTV і чому вона важливіша за кількість клієнтів</span>
+                <span class="module-topic">Залучити нового = в 5–7 разів дорожче ніж продати старому</span>
+                <span class="module-topic">Сегментація бази: 4 групи і що робити з кожною</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">02</span>
+            <div class="module-content">
+              <h3 class="module-title">Пуші: коли, скільки і як часто</h3>
+              <p class="module-subtitle">Золоте правило і таймлайн для нового ліда</p>
+              <div class="module-topics">
+                <span class="module-topic">Частота пушів для гарячого, теплого і холодного клієнта</span>
+                <span class="module-topic">Послідовність 6 торкань: день 1 → місяць 2</span>
+                <span class="module-topic">Формула хорошого пушу: причина + цінність + один CTA</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">03</span>
+            <div class="module-content">
+              <h3 class="module-title">О котрій годині надсилати пуші</h3>
+              <p class="module-subtitle">Час відправки = +30–50% до відповідей</p>
+              <div class="module-topics">
+                <span class="module-topic">Розклад відправки з оцінкою кожного проміжку</span>
+                <span class="module-topic">Найкращі дні тижня: вівторок, середа, четвер</span>
+                <span class="module-topic">B2B vs B2C: різна логіка часу</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">04</span>
+            <div class="module-content">
+              <h3 class="module-title">Що писати в пушах: 5 формул</h3>
+              <p class="module-subtitle">Корисність, дедлайн, уточнення, новина, доказ</p>
+              <div class="module-topics">
+                <span class="module-topic">5 типів пушів що реально спрацьовують</span>
+                <span class="module-topic">Готові шаблони під кожен тип</span>
+                <span class="module-topic">Правило одного CTA: не двох — одного</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">05</span>
+            <div class="module-content">
+              <h3 class="module-title">Погані і хороші пуші: порівняння</h3>
+              <p class="module-subtitle">5 реальних ситуацій</p>
+              <div class="module-topics">
+                <span class="module-topic">Клієнт мовчить 2 місяці — як написати</span>
+                <span class="module-topic">Акція / дедлайн — як не звучати як спам</span>
+                <span class="module-topic">Фолоу-ап після ігнору — правильна і хибна версія</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">06</span>
+            <div class="module-content">
+              <h3 class="module-title">Чого НЕ робити в дотиску клієнта</h3>
+              <p class="module-subtitle">10 помилок що руйнують відносини</p>
+              <div class="module-topics">
+                <span class="module-topic">Писати кожного дня, надсилати той самий текст двічі</span>
+                <span class="module-topic">Давати знижку при першому «дорого»</span>
+                <span class="module-topic">Ображатись на ігнор — класичний токсичний дотиск</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">07</span>
+            <div class="module-content">
+              <h3 class="module-title">Робота з відмовниками</h3>
+              <p class="module-subtitle">Таймлайн повернення: 1 тиждень → 1 рік</p>
+              <div class="module-topics">
+                <span class="module-topic">Відмова ≠ «ніколи». Коли і як повертатись</span>
+                <span class="module-topic">5 точок повернення зі скриптами для кожної</span>
+                <span class="module-topic">Правила: ніколи не нагадувати «ви ж відмовились»</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">08</span>
+            <div class="module-content">
+              <h3 class="module-title">Від автора</h3>
+              <p class="module-subtitle">5 речей що змінять роботу з базою</p>
+              <div class="module-topics">
+                <span class="module-topic">CRM — не розкіш, а мінімум</span>
+                <span class="module-topic">Тихий клієнт — не втрачений клієнт</span>
+                <span class="module-topic">Фінальна формула: сегментуй → давай цінність → пушинь → повертайся</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="part-divider">
+          <span class="part-divider-label">Частина 2 — Поради та червоні прапорці ★</span>
+          <span class="part-divider-line"></span>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">09</span>
+            <div class="module-content">
+              <h3 class="module-title">Сегментація теплої бази</h3>
+              <p class="module-subtitle">Нові / постійні / сплячі / втрачені</p>
+              <div class="module-topics">
+                <span class="module-topic">Таблиця стратегій і частоти для кожного сегменту</span>
+                <span class="module-topic">Мікросегменти: по бюджету, категорії, частоті, джерелу</span>
+                <span class="module-topic">Як сегментувати без CRM — мінімальна таблиця</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">10</span>
+            <div class="module-content">
+              <h3 class="module-title">Як правильно нагадувати про себе</h3>
+              <p class="module-subtitle">6 приводів + 2 готових шаблони</p>
+              <div class="module-topics">
+                <span class="module-topic">6 приводів для контакту: від поповнення запасу до особистих дат</span>
+                <span class="module-topic">Шаблони після 30 днів мовчання і нагадування про запас</span>
+                <span class="module-topic">Правила частоти: не більше 2–3 разів на місяць без запиту</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">11</span>
+            <div class="module-content">
+              <h3 class="module-title">Червоні прапорці: сигнали що клієнт іде</h3>
+              <p class="module-subtitle">7 сигналів з діями для кожного</p>
+              <div class="module-topics">
+                <span class="module-topic">Читає але не відповідає вже двічі поспіль</span>
+                <span class="module-topic">Пише коротко і холодно там де раніше був теплий</span>
+                <span class="module-topic">Вперше просить знижку / відписується від розсилки</span>
+                <span class="module-topic">Системний моніторинг: як не пропустити сигнали</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">12</span>
+            <div class="module-content">
+              <h3 class="module-title">Реактивація сплячих клієнтів</h3>
+              <p class="module-subtitle">Таблиця пауз + скрипти</p>
+              <div class="module-topics">
+                <span class="module-topic">45 / 90 / 180 / 180+ днів — різна стратегія і тон</span>
+                <span class="module-topic">Готові скрипти для кожного етапу</span>
+                <span class="module-topic">Чого не робити: 5 помилок реактивації</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-number">13</span>
+            <div class="module-content">
+              <h3 class="module-title">Утримання. Лояльність. Метрики.</h3>
+              <p class="module-subtitle">Три теми що завершують систему</p>
+              <div class="module-topics">
+                <span class="module-topic">Алгоритм роботи зі скаргою: 5 кроків з таймінгом</span>
+                <span class="module-topic">Лояльність без знижок: пріоритет, сюрпризи, рівні</span>
+                <span class="module-topic">Метрики: Retention Rate, Churn Rate, NPS — як рахувати і що робити</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Buy -->
+  <section class="section">
+    <div class="container">
+      <div class="buy-box">
+        <h2 class="buy-box-title">Придбати курс</h2>
+        <p class="buy-box-desc">Миттєвий доступ до всіх матеріалів після оплати</p>
+        <div class="buy-box-price">580 <span>грн</span></div>
+        <a href="#" class="buy-box-btn">Купити зараз</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-copy">© 2025 Яковенко Руслан. Усі права захищені.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
