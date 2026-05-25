@@ -412,6 +412,23 @@
       animation: none;
     }
 
+    /* Modal */
+    .modal-overlay{display:none;position:fixed;inset:0;background-color:rgba(45,42,38,0.55);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center;padding:16px}
+    .modal-overlay.active{display:flex}
+    .modal{background-color:var(--card);border-radius:16px;padding:36px 32px 32px;max-width:440px;width:100%;position:relative;box-shadow:0 24px 64px rgba(0,0,0,0.18);animation:modal-in 0.22s ease}
+    @keyframes modal-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    .modal-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border:none;background:var(--secondary);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted-foreground);transition:background 0.15s}
+    .modal-close:hover{background:var(--muted)}
+    .modal-quote{font-family:'Playfair Display',Georgia,serif;font-size:1rem;font-style:italic;line-height:1.65;color:var(--foreground);border-left:3px solid var(--accent);padding-left:16px;margin-bottom:24px}
+    .modal-divider{height:1px;background:var(--border);margin-bottom:20px}
+    .modal-form{display:flex;flex-direction:column;gap:12px}
+    .modal-input{width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:var(--radius);background-color:var(--background);font-family:'Inter',sans-serif;font-size:0.9375rem;color:var(--foreground);outline:none;transition:border-color 0.2s}
+    .modal-input:focus{border-color:var(--primary)}
+    .modal-input::placeholder{color:var(--muted-foreground)}
+    @keyframes pay-pulse{0%,100%{box-shadow:0 0 0 0 rgba(61,56,51,0.35)}50%{box-shadow:0 0 0 8px rgba(61,56,51,0)}}
+    .modal-pay-btn{width:100%;padding:14px;background-color:var(--primary);color:var(--primary-foreground);border:none;border-radius:var(--radius);font-family:'Inter',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;margin-top:4px;animation:pay-pulse 2s ease-in-out infinite;transition:opacity 0.2s}
+    .modal-pay-btn:hover{opacity:0.9;animation:none}
+
     .footer {
       border-top: 1px solid var(--border);
       background-color: var(--card);
@@ -905,7 +922,7 @@
         <h2 class="buy-box-title">Придбати курс</h2>
         <p class="buy-box-desc">Миттєвий доступ до всіх матеріалів після оплати</p>
         <div class="buy-box-price">1000 <span>грн</span></div>
-        <a href="#" class="buy-box-btn">Купити зараз</a>
+        <a href="#" class="buy-box-btn" onclick="openModal();return false;">Отримати доступ</a>
       </div>
     </div>
   </section>
@@ -917,5 +934,7 @@
     </div>
   </footer>
 
+  <div class="modal-overlay" id="purchaseModal"><div class="modal"><button class="modal-close" onclick="closeModal()"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button><p class="modal-quote">«19 розділів що замінять рік проб і помилок. Ваш бізнес починається тут»</p><div class="modal-divider"></div><div class="modal-form"><input class="modal-input" type="text" placeholder="Ваше ім’я" required><input class="modal-input" type="email" placeholder="Ваш email" required><button class="modal-pay-btn">Оплатити 1000 грн</button></div></div></div>
+  <script>function openModal(){document.getElementById('purchaseModal').classList.add('active');document.body.style.overflow='hidden'}function closeModal(){document.getElementById('purchaseModal').classList.remove('active');document.body.style.overflow=''}document.getElementById('purchaseModal').addEventListener('click',function(e){if(e.target===this)closeModal()})</script>
 </body>
 </html>
