@@ -990,16 +990,12 @@
       <p class="modal-quote">«Після цього курсу ваша переписка буде закривати угоди — а не втрачати клієнтів»</p>
       <div class="modal-divider"></div>
       <div class="modal-form">
-        <input class="modal-input" type="text" placeholder="Ваше ім’я" required>
-        <input class="modal-input" type="email" placeholder="Ваш email" required>
-        <button class="modal-pay-btn">Оплатити 489 грн</button>
+        <input class="modal-input" id="modalName" type="text" placeholder="Ваше ім’я" required>
+        <input class="modal-input" id="modalEmail" type="email" placeholder="Ваш email" required>
+        <button class="modal-pay-btn" id="modalPayBtn" onclick="pay()">Оплатити 489 грн</button>
       </div>
     </div>
   </div>
-  <script>
-    function openModal()  { document.getElementById('purchaseModal').classList.add('active');    document.body.style.overflow='hidden'; }
-    function closeModal() { document.getElementById('purchaseModal').classList.remove('active'); document.body.style.overflow=''; }
-    document.getElementById('purchaseModal').addEventListener('click', function(e){ if(e.target===this) closeModal(); });
-  </script>
+  <script>const COURSE_ID='scripts';function openModal(){document.getElementById('purchaseModal').classList.add('active');document.body.style.overflow='hidden'}function closeModal(){document.getElementById('purchaseModal').classList.remove('active');document.body.style.overflow=''}document.getElementById('purchaseModal').addEventListener('click',function(e){if(e.target===this)closeModal()});async function pay(){const n=document.getElementById('modalName').value.trim(),e=document.getElementById('modalEmail').value.trim();if(!n||!e){alert('Будь ласка, заповніть усі поля');return;}const b=document.getElementById('modalPayBtn');const orig=b.textContent;b.textContent='Зачекайте...';b.disabled=true;try{const r=await fetch('/api/create-invoice',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({courseId:COURSE_ID,name:n,email:e})});const d=await r.json();if(d.pageUrl)window.location.href=d.pageUrl;else{alert('Помилка оплати. Спробуйте ще раз.');b.textContent=orig;b.disabled=false;}}catch(err){alert('Помилка мережі. Спробуйте ще раз.');b.textContent=orig;b.disabled=false;}}</script>
 </body>
 </html>

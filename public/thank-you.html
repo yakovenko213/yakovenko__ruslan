@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Дякуємо за оплату — Яковенко Руслан</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --background: #faf9f7;
+      --foreground: #1c1917;
+      --card: #ffffff;
+      --primary: #3d3833;
+      --primary-foreground: #faf9f7;
+      --muted-foreground: #78716c;
+      --border: #e7e5e4;
+      --accent: #b08d6a;
+      --radius: 10px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--background);
+      color: var(--foreground);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 48px 40px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+    }
+    .icon-wrap {
+      width: 72px;
+      height: 72px;
+      background: #f0fdf4;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+    .icon-wrap svg { color: #16a34a; }
+    h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--foreground);
+      margin-bottom: 12px;
+    }
+    .subtitle {
+      font-size: 1rem;
+      color: var(--muted-foreground);
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+    .steps {
+      text-align: left;
+      background: var(--background);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.9375rem;
+      color: var(--foreground);
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 14px 32px;
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.85; }
+    .footer-note {
+      margin-top: 24px;
+      font-size: 0.8125rem;
+      color: var(--muted-foreground);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+    </div>
+    <h1>Оплата успішна!</h1>
+    <p class="subtitle">Дякуємо за покупку. Доступ до матеріалів курсу вже готується для вас.</p>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">1</span>
+        <span>Перевірте вашу пошту — туди надійде лист з доступом до курсу.</span>
+      </div>
+      <div class="step">
+        <span class="step-num">2</span>
+        <span>Якщо листа немає — перевірте папку «Спам» або напишіть нам у Telegram.</span>
+      </div>
+      <div class="step">
+        <span class="step-num">3</span>
+        <span>Розпочинайте навчання і застосовуйте знання вже сьогодні.</span>
+      </div>
+    </div>
+    <a href="index.html" class="btn">Повернутися на головну</a>
+    <p class="footer-note">Питання? Пишіть у <a href="https://t.me/yakovenko_ruslan" style="color:var(--accent)">Telegram</a></p>
+  </div>
+</body>
+</html>
