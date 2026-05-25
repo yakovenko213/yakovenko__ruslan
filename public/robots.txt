@@ -3,5 +3,6 @@ Allow: /
 
 Disallow: /admin.html
 Disallow: /thank-you.html
+Disallow: /courses/
 
-Sitemap: https://yakovenko-school.web.app/sitemap.xml
+Sitemap: https://www.yakovenkoruslan.com.ua/sitemap.xml

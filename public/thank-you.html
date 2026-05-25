@@ -17,6 +17,8 @@
       --muted-foreground: #78716c;
       --border: #e7e5e4;
       --accent: #b08d6a;
+      --green: #16a34a;
+      --red: #dc2626;
       --radius: 10px;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -41,103 +43,155 @@
       text-align: center;
       box-shadow: 0 8px 32px rgba(0,0,0,0.07);
     }
+    @media (max-width: 480px) { .card { padding: 36px 24px; } }
     .icon-wrap {
-      width: 72px;
-      height: 72px;
-      background: #f0fdf4;
+      width: 72px; height: 72px;
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       margin: 0 auto 24px;
     }
-    .icon-wrap svg { color: #16a34a; }
+    .icon-wrap-green { background: #f0fdf4; color: var(--green); }
+    .icon-wrap-red   { background: #fef2f2; color: var(--red); }
+    .icon-wrap-spin  { background: var(--border); }
+    .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
     h1 {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: var(--foreground);
-      margin-bottom: 12px;
+      font-size: 1.75rem; font-weight: 700;
+      color: var(--foreground); margin-bottom: 12px;
+    }
+    .course-label {
+      display: inline-block;
+      background: #f0fdf4; color: var(--green);
+      border: 1px solid #bbf7d0;
+      border-radius: 999px;
+      padding: 4px 14px;
+      font-size: 0.875rem; font-weight: 600;
+      margin-bottom: 16px;
     }
     .subtitle {
-      font-size: 1rem;
-      color: var(--muted-foreground);
-      line-height: 1.6;
-      margin-bottom: 32px;
+      font-size: 1rem; color: var(--muted-foreground);
+      line-height: 1.6; margin-bottom: 28px;
     }
-    .steps {
-      text-align: left;
-      background: var(--background);
-      border-radius: var(--radius);
-      padding: 20px 24px;
-      margin-bottom: 32px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    .step {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      font-size: 0.9375rem;
-      color: var(--foreground);
-    }
-    .step-num {
-      flex-shrink: 0;
-      width: 24px;
-      height: 24px;
-      background: var(--accent);
+    .btn-download {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%;
+      padding: 16px 32px;
+      background-color: var(--green);
       color: #fff;
-      border-radius: 50%;
-      font-size: 0.75rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 1px;
-    }
-    .btn {
-      display: inline-block;
-      padding: 14px 32px;
-      background-color: var(--primary);
-      color: var(--primary-foreground);
       border-radius: var(--radius);
       text-decoration: none;
-      font-size: 0.9375rem;
-      font-weight: 600;
+      font-size: 1rem; font-weight: 600;
       transition: opacity 0.2s;
+      margin-bottom: 12px;
     }
-    .btn:hover { opacity: 0.85; }
-    .footer-note {
-      margin-top: 24px;
-      font-size: 0.8125rem;
+    .btn-download:hover { opacity: 0.88; }
+    .btn-secondary {
+      display: block;
+      padding: 12px 32px;
+      background-color: transparent;
       color: var(--muted-foreground);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-size: 0.9375rem; font-weight: 500;
+      transition: background 0.15s;
+      margin-bottom: 24px;
+    }
+    .btn-secondary:hover { background: var(--background); }
+    .footer-note { font-size: 0.8125rem; color: var(--muted-foreground); }
+    .footer-note a { color: var(--accent); }
+    .hint {
+      font-size: 0.8125rem; color: var(--muted-foreground);
+      margin-bottom: 24px; line-height: 1.5;
     }
   </style>
 </head>
 <body>
   <div class="card">
-    <div class="icon-wrap">
-      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+
+    <!-- Loading -->
+    <div id="state-loading">
+      <div class="icon-wrap icon-wrap-spin">
+        <div class="spinner"></div>
+      </div>
+      <h1 style="font-size:1.25rem">Перевіряємо оплату…</h1>
     </div>
-    <h1>Оплата успішна!</h1>
-    <p class="subtitle">Дякуємо за покупку. Доступ до матеріалів курсу вже готується для вас.</p>
-    <div class="steps">
-      <div class="step">
-        <span class="step-num">1</span>
-        <span>Перевірте вашу пошту — туди надійде лист з доступом до курсу.</span>
+
+    <!-- Success -->
+    <div id="state-success" style="display:none">
+      <div class="icon-wrap icon-wrap-green">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
       </div>
-      <div class="step">
-        <span class="step-num">2</span>
-        <span>Якщо листа немає — перевірте папку «Спам» або напишіть нам у Telegram.</span>
-      </div>
-      <div class="step">
-        <span class="step-num">3</span>
-        <span>Розпочинайте навчання і застосовуйте знання вже сьогодні.</span>
-      </div>
+      <h1>Оплата успішна!</h1>
+      <div id="course-label" class="course-label"></div>
+      <p class="subtitle">Ваш курс готовий. Натисніть кнопку нижче щоб завантажити PDF — він залишиться у вас назавжди.</p>
+      <a id="download-btn" href="#" class="btn-download" download>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Завантажити курс
+      </a>
+      <p class="hint">Посилання діє 7 днів. Якщо не завантажується — напишіть нам.</p>
+      <a href="index.html" class="btn-secondary">Повернутися на головну</a>
+      <p class="footer-note">Питання? Пишіть у <a href="https://t.me/yakovenko_biz">Telegram</a></p>
     </div>
-    <a href="index.html" class="btn">Повернутися на головну</a>
-    <p class="footer-note">Питання? Пишіть у <a href="https://t.me/yakovenko_ruslan" style="color:var(--accent)">Telegram</a></p>
+
+    <!-- Error -->
+    <div id="state-error" style="display:none">
+      <div class="icon-wrap icon-wrap-red">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <h1 style="font-size:1.5rem">Посилання недійсне</h1>
+      <p class="subtitle" id="error-msg">Термін завантаження вийшов або посилання некоректне.</p>
+      <a href="https://t.me/yakovenko_biz" class="btn-download" style="background:var(--accent)">
+        Написати в Telegram
+      </a>
+      <a href="index.html" class="btn-secondary">На головну</a>
+    </div>
+
   </div>
+
+  <script>
+    const DOWNLOAD_FN = 'https://europe-west1-yakovenko-school.cloudfunctions.net/getDownloadLink';
+
+    async function init() {
+      const token = new URLSearchParams(location.search).get('token');
+      if (!token) { showError('Токен відсутній. Перевірте посилання.'); return; }
+
+      try {
+        const r = await fetch(`${DOWNLOAD_FN}?token=${encodeURIComponent(token)}`);
+        const data = await r.json();
+
+        if (!r.ok) {
+          if (r.status === 410) showError('Термін завантаження вийшов (7 днів). Напишіть нам — надішлемо повторно.');
+          else showError('Посилання недійсне. Зверніться в підтримку.');
+          return;
+        }
+
+        document.getElementById('course-label').textContent = data.courseName;
+        const btn = document.getElementById('download-btn');
+        btn.href = data.url;
+        btn.setAttribute('download', `${data.courseId}.pdf`);
+
+        document.getElementById('state-loading').style.display = 'none';
+        document.getElementById('state-success').style.display = 'block';
+      } catch (e) {
+        showError('Помилка мережі. Спробуйте оновити сторінку.');
+      }
+    }
+
+    function showError(msg) {
+      document.getElementById('state-loading').style.display = 'none';
+      if (msg) document.getElementById('error-msg').textContent = msg;
+      document.getElementById('state-error').style.display = 'block';
+    }
+
+    init();
+  </script>
 </body>
 </html>

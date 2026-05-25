@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Яковенко Руслан — Школа Бізнесу</title>
-  <meta name="description" content="Практичні курси про продажі, клієнтів та онлайн-бізнес — без води та складної теорії.">
+  <title>Курси з продажів та бізнесу | Яковенко Руслан</title>
+  <meta name="description" content="Практичні PDF-курси з продажів, маркетингу та бізнесу. Скрипти переписки, воронки продажів, психологія грошей — реальні інструменти без теорії. Для підприємців та менеджерів.">
+  <link rel="canonical" href="https://www.yakovenkoruslan.com.ua/">
   <meta name="google-site-verification" content="_yDkiD2vJ67vVcZQDxAizdRCSoOdtdFTXHRXQgkWyoM" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -140,8 +141,10 @@
     }
 
     .btn-lg {
-      padding: 12px 24px;
+      padding: 14px 28px;
       font-size: 1rem;
+      width: 100%;
+      justify-content: center;
     }
 
     .btn .btn-arrow {
@@ -164,11 +167,41 @@
       background: transparent;
       border: none;
       cursor: pointer;
+      color: var(--foreground);
     }
+
+    /* Mobile nav dropdown */
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      padding: 12px 16px 16px;
+      background: rgba(247, 245, 242, 0.98);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      z-index: 48;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav-link {
+      padding: 12px 16px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--foreground);
+      text-decoration: none;
+      border-radius: var(--radius);
+      transition: background 0.15s;
+    }
+    .mobile-nav-link:hover { background: var(--secondary); }
+    .mobile-nav .btn { margin-top: 8px; text-align: center; justify-content: center; }
+    @media (min-width: 768px) { .mobile-nav { display: none !important; } }
 
     /* Hero Section */
     .hero {
-      padding: 64px 0 80px;
+      padding: 40px 0 56px;
     }
 
     .container {
@@ -185,9 +218,9 @@
 
     .hero-title {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: 2.5rem;
+      font-size: 2rem;
       font-weight: 600;
-      line-height: 1.1;
+      line-height: 1.15;
       color: var(--foreground);
     }
 
@@ -211,11 +244,12 @@
     }
 
     .hero-image img {
-      width: 288px;
-      height: auto;
+      width: 240px;
+      height: 240px;
       border-radius: 16px;
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
       object-fit: cover;
+      object-position: top;
     }
 
     /* Section styles */
@@ -826,7 +860,7 @@
 
     @media (min-width: 640px) {
       .hero-title {
-        font-size: 3rem;
+        font-size: 2.75rem;
       }
 
       .hero-buttons {
@@ -834,8 +868,13 @@
         gap: 16px;
       }
 
+      .btn-lg {
+        width: auto;
+      }
+
       .hero-image img {
-        width: 320px;
+        width: 300px;
+        height: 300px;
       }
 
       .grid-4 {
@@ -890,7 +929,7 @@
       }
 
       .hero-title {
-        font-size: 3.75rem;
+        font-size: 3.5rem;
       }
 
       .hero-image {
@@ -898,7 +937,8 @@
       }
 
       .hero-image img {
-        width: 384px;
+        width: 380px;
+        height: 460px;
       }
 
       .section {
@@ -947,13 +987,23 @@
         <a href="#benefits" class="nav-link">Переваги</a>
         <a href="#courses" class="btn btn-primary btn-sm">Обрати курс</a>
       </nav>
-      <button class="mobile-menu-btn" aria-label="Меню">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="4" x2="20" y1="12" y2="12"></line>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Меню" aria-expanded="false">
+        <svg id="menuIconOpen" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="4" x2="20" y1="6" y2="6"></line>
+          <line x1="4" x2="20" y1="12" y2="12"></line>
           <line x1="4" x2="20" y1="18" y2="18"></line>
         </svg>
+        <svg id="menuIconClose" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+          <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+        </svg>
       </button>
+    </div>
+    <!-- Mobile nav -->
+    <div class="mobile-nav" id="mobileNav">
+      <a href="#courses" class="mobile-nav-link" onclick="closeMobileMenu()">Курси</a>
+      <a href="#how-it-works" class="mobile-nav-link" onclick="closeMobileMenu()">Як це працює</a>
+      <a href="#benefits" class="mobile-nav-link" onclick="closeMobileMenu()">Переваги</a>
+      <a href="#courses" class="btn btn-primary" onclick="closeMobileMenu()">Обрати курс</a>
     </div>
   </header>
 
@@ -1349,6 +1399,31 @@
       </div>
     </div>
   </footer>
+<script>
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mobileNav = document.getElementById('mobileNav');
+  const menuIconOpen = document.getElementById('menuIconOpen');
+  const menuIconClose = document.getElementById('menuIconClose');
+
+  mobileMenuBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const isOpen = mobileNav.classList.toggle('open');
+    menuIconOpen.style.display = isOpen ? 'none' : 'block';
+    menuIconClose.style.display = isOpen ? 'block' : 'none';
+    mobileMenuBtn.setAttribute('aria-expanded', isOpen);
+  });
+
+  function closeMobileMenu() {
+    mobileNav.classList.remove('open');
+    menuIconOpen.style.display = 'block';
+    menuIconClose.style.display = 'none';
+    mobileMenuBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.header')) closeMobileMenu();
+  });
+</script>
 <script>(function(){var s=sessionStorage.getItem('_sid')||Math.random().toString(36).slice(2);sessionStorage.setItem('_sid',s);fetch('https://europe-west1-yakovenko-school.cloudfunctions.net/trackPageView',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({page:location.pathname,sessionId:s}),keepalive:true}).catch(function(){});})();</script>
 </body>
 </html>

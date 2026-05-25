@@ -26,10 +26,12 @@ exports.createInvoice = onRequest(
 
     const MONO_TOKEN = process.env.MONO_TOKEN;
 
+    const token = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2) + Date.now().toString(36);
+
     const payload = {
       amount: course.amount,
       ccy: 980,
-      redirectUrl: "https://yakovenko-school.web.app/thank-you.html",
+      redirectUrl: `https://www.yakovenkoruslan.com.ua/thank-you.html?token=${token}`,
       webHookUrl: "https://europe-west1-yakovenko-school.cloudfunctions.net/monoWebhook",
       validity: 3600,
       merchantPaymInfo: {
@@ -60,6 +62,14 @@ exports.createInvoice = onRequest(
         res.status(500).json({ error: "Payment error" });
         return;
       }
+
+      db.collection("downloadTokens").doc(token).set({
+        courseId,
+        courseName: course.name,
+        invoiceId: data.invoiceId,
+        createdAt: new Date(),
+        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      }).catch(err => console.error("Token write error:", err.message));
 
       db.collection("invoices").doc(data.invoiceId).set({
         invoiceId: data.invoiceId,
@@ -93,6 +103,38 @@ exports.monoWebhook = onRequest(
       }).catch(() => {});
     }
     res.status(200).send("ok");
+  }
+);
+
+exports.getDownloadLink = onRequest(
+  { region: "europe-west1", invoker: "public" },
+  async (req, res) => {
+    res.set("Access-Control-Allow-Origin", "*");
+    res.set("Access-Control-Allow-Headers", "Content-Type");
+    if (req.method === "OPTIONS") { res.status(204).send(""); return; }
+
+    const token = req.query.token;
+    if (!token) { res.status(400).json({ error: "Missing token" }); return; }
+
+    try {
+      const doc = await db.collection("downloadTokens").doc(token).get();
+      if (!doc.exists) { res.status(404).json({ error: "Invalid token" }); return; }
+
+      const data = doc.data();
+      if (data.expiresAt.toDate() < new Date()) {
+        res.status(410).json({ error: "Token expired" }); return;
+      }
+
+      res.json({
+        ok: true,
+        courseId: data.courseId,
+        courseName: data.courseName,
+        url: `/courses/${data.courseId}.pdf`,
+      });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).json({ error: "Internal error" });
+    }
   }
 );
 

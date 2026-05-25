@@ -308,7 +308,7 @@
       <div class="stats-grid" id="salesStats"></div>
       <div class="table-card">
         <div class="table-header">
-          <span class="table-title">Успішні оплати</span>
+          <span class="table-title">Всі транзакції</span>
           <span class="table-count" id="salesCount">0</span>
         </div>
         <div id="salesTableWrap"><div class="loading">Завантаження...</div></div>
@@ -629,34 +629,36 @@
   }
 
   function renderSales(sales) {
-    document.getElementById('salesCount').textContent = sales.length;
-    const total = sales.reduce((s, i) => s + (i.amount || 0), 0);
+    const allInvoices = allData;
+    const successOnly = allData.filter(i => i.status === 'success');
+    const total = successOnly.reduce((s, i) => s + (i.amount || 0), 0);
+    document.getElementById('salesCount').textContent = allInvoices.length;
 
     document.getElementById('salesStats').innerHTML = `
       <div class="stat-card green">
-        <div class="stat-label">Загальний дохід</div>
+        <div class="stat-label">Дохід (оплачено)</div>
         <div class="stat-value">${fmtMoney(total)}</div>
-        <div class="stat-sub">за весь час</div>
+        <div class="stat-sub">успішних оплат</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Продажів</div>
-        <div class="stat-value">${sales.length}</div>
-        <div class="stat-sub">успішних оплат</div>
+        <div class="stat-label">Успішних</div>
+        <div class="stat-value">${successOnly.length}</div>
+        <div class="stat-sub">з ${allInvoices.length} транзакцій</div>
       </div>`;
 
-    if (!sales.length) {
-      document.getElementById('salesTableWrap').innerHTML = emptyState('Поки що немає продажів');
+    if (!allInvoices.length) {
+      document.getElementById('salesTableWrap').innerHTML = emptyState('Поки що немає транзакцій');
       return;
     }
     document.getElementById('salesTableWrap').innerHTML = `
       <table>
-        <thead><tr><th>Дата</th><th>Ім'я</th><th>Email</th><th>Курс</th><th>Сума</th><th>Статус</th></tr></thead>
-        <tbody>${sales.map(i => `
+        <thead><tr><th>Дата та час</th><th>Ім'я</th><th>Email</th><th>Курс</th><th>Сума</th><th>Статус</th></tr></thead>
+        <tbody>${allInvoices.map(i => `
           <tr>
-            <td style="white-space:nowrap">${fmtDate(i.createdAt)}</td>
-            <td>${i.name || '—'}</td>
-            <td>${i.email || '—'}</td>
-            <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${i.courseName || i.courseId}</td>
+            <td style="white-space:nowrap;font-size:0.8rem">${fmtDate(i.createdAt)}</td>
+            <td style="white-space:nowrap">${i.name || '<span style="color:var(--muted)">—</span>'}</td>
+            <td style="font-size:0.8rem">${i.email || '<span style="color:var(--muted)">—</span>'}</td>
+            <td style="max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:0.8rem">${i.courseName || i.courseId || '—'}</td>
             <td style="white-space:nowrap;font-weight:600">${fmtMoney(i.amount)}</td>
             <td>${badge(i.status)}</td>
           </tr>`).join('')}
